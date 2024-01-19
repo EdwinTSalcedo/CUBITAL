@@ -1,37 +1,81 @@
-# Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa
+<h1 align="center">Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa</h1> 
 
-Official Tensorflow implementation of *"Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa"* (MICAI 2023 Oral session)
+This repository contains supplementary material for [*"Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa"*](https://arxiv.org/pdf/2310.18234.pdf) (MICAI 2023 Oral session). **Authors:** [Edwin Salcedo](https://www.linkedin.com/in/edwinsalcedo), [Patricia Peñaloza](https://www.linkedin.com/in/patricia-jael-pe%C3%B1aloza-sola-6b9b65131)
 
-**Edwin Salcedo, Patricia Peñaloza**
-
-@Universidad Católica Boliviana "San Pablo"
-
-[Paper](https://arxiv.org/pdf/2310.18234.pdf) | [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing)
-
-## Abstract
-Assessing the condition and visibility of veins is a crucial step before obtaining intravenous access in the antecubital fossa, which is a common procedure to draw blood or administer intravenous therapies (IV therapies). Even though medical practitioners are highly skilled at intravenous cannulation, they usually struggle to perform the procedure in patients with low visible veins due to fluid retention, age, overweight, dark skin tone, or diabetes. Recently, several investigations proposed combining Near Infrared (NIR) imaging and deep learning (DL) techniques for forearm vein segmentation. Although they have demonstrated compelling results, their use has been rather limited owing to the portability and precision requirements to perform venipuncture. In this paper, we aim to contribute to bridging this gap using three strategies. First, we introduce a new NIR-based forearm vein segmentation dataset of 2,016 labelled images collected from 1,008 subjects with low visible veins. Second, we propose a modified U-Net architecture that locates veins specifically in the antecubital fossa region of the examined patient. Finally, a compressed version of the proposed architecture was deployed inside a bespoke, portable vein finder device after testing four common embedded microcomputers and four common quantization modalities. Experimental results showed that the model compressed with Dynamic Range Quantization and deployed on a Raspberry Pi 4B card produced the best execution time and precision balance, with 5.14 FPS and 0.957 of latency and Intersection over Union (IoU), respectively. These results show promising performance inside a resource-restricted low-cost device.
-
-## Overview
-<p float="left">
-  <img src="images/interface.png" height="250">
-  <img src="images/isometric.png" height="250">
+<p align="center">
+  <img src="images/">
 </p>
 
-## Dataset samples
-<p float="left">
-  <img src="samples/0.png" height="250">
-  <img src="samples/0_prep.png" height="250">
-</p>
-<p float="left">
-  <img src="samples/1.png" height="250">
-  <img src="samples/1_prep.png" height="250">
+<div align="center">
+  <a href="#Overview"><b>Overview</b></a> |
+  <a href="#Our approach"><b>Dataset</b></a> |
+  <a href="#Results"><b>Experimental Results</b></a> |
+  <a href="#Getting Started"><b>Getting Started</b></a> |
+  <a href="#Citation"><b>Citation</b></a>
+</div>
+
+<br>
+
+# Overview
+
+## Motivation
+Assessing the condition and visibility of veins is an important step before obtaining intravenous access in the antecubital fossa. This is a common procedure to draw blood or administer intravenous therapies (IV therapies). Even though medical practitioners are highly skilled at intravenous cannulation, they usually struggle to perform the procedure in patients with low visible veins due to fluid retention, age, overweight, dark skin tone, or diabetes. Commonly, SOTA investigations propose combining Near Infrared imaging (NIR) and deep learning (DL) techniques for forearm vein segmentation. However, the more detailed the localization of veins in the antecubital fossa, the more helpful it would be in reducing the time required for venipuncture.
+
+In view of the above, we introduce a new NIR-based forearm vein segmentation dataset of 2,016 labelled images collected from 1,008 subjects with low visible veins. Second, we propose a framework that locates veins specifically in the antecubital fossa region of a patient's arm. Additionally, a compressed version of the proposed framework is embedded inside a bespoke, portable vein finder device. 
+
+## Proposed framework and DL architecture
+The framework to extract veins in the antecubital region consists of the next steps:  
+<p align="center">
+<img src="images/final-unet.png" width="600">
 </p>
 
-## Citation
+The segmentation model, shown in blue, is depicted in the following figure:
+
+<p align="center">
+<img src="images/final-unet.png" width="200">
+</p>
+
+Not only this obtains segmentation masks, but also x, y coordinates of the antecubital region, as well as the arm's angle.
+
+## Proposed Hardware Device
+
+<p align="center">
+  <img src="images/isometric.png" height="240">
+  <img src="images/posterior.png" height="240">
+</p>
+
+| Component | Technical details | CAD Design |
+| --- | --- | --- |
+| Case |  |  |
+| Powerbank |  |  |
+| Raspberry Pi |  |  |
+| Picam NoIR |  |  |
+| Switch |  |  |
+| LCD |  |  |
+| Relay |  |  |
+
+# Dataset
+
+The database used for this work was built from scratch. 1,008 subjects with low-visible veins placed one arm at a time, while we captured a NIR image with the initial version of the vein finder. For more specific information about the labelling process, please refer to the paper. The final version of the dataset can be found here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). We created an additional [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) version with normalized samples of 512x512 dimensions for immediate training with the proposed notebooks in the repository. 
+
+|  NIR |  Preprocessed |  Annotations |  
+|---|---|---|
+|<img src="samples/0.png" width="300"/> | <img src=samples/0_prep.png alt="drawing" width="300"/> | <img src=samples/0_prep.png alt="drawing" width="300"/> |
+
+# Experimental Results
+
+# Getting started
+
+## Requirements
+
+## Inference
+
+
+# Citation
 If you find *CUBITAL* useful in your project, please consider to cite the following paper:
 
 ```
-@inproceedings{salcedo2023edge,
+@inproceedings{salcedo2023,
   title={Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa},
   author={Salcedo, Edwin and Pe{\~n}aloza, Patricia},
   booktitle={Mexican International Conference on Artificial Intelligence},
@@ -39,21 +83,4 @@ If you find *CUBITAL* useful in your project, please consider to cite the follow
   year={2023},
   organization={Springer}
 }
-```
-
-## License
-```
-Copyright 2021-present "Universidad Católica Boliviana San Pablo"
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
 ```
