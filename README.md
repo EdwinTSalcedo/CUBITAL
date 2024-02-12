@@ -8,9 +8,10 @@ This repository contains supplementary material for [*"Edge AI-Based Vein Detect
 
 <div align="center">
   <a href="#Overview"><b>Overview</b></a> |
-  <a href="#Our approach"><b>Dataset</b></a> |
-  <a href="#Results"><b>Experimental Results</b></a> |
+  <a href="#Dataset"><b>Dataset</b></a> |
+  <a href="#Results"><b>Results</b></a> |
   <a href="#Getting Started"><b>Getting Started</b></a> |
+  <a href="#Validation"><b>Validation</b></a> |
   <a href="#Citation"><b>Citation</b></a>
 </div>
 
@@ -26,16 +27,16 @@ In view of the above, we introduce a new NIR-based forearm vein segmentation dat
 ## Proposed framework and DL architecture
 The framework to extract veins in the antecubital region consists of the next steps:  
 <p align="center">
-<img src="images/final-unet.png" width="600">
+<img src="images/pipeline.png" width="600">
 </p>
 
 The segmentation model, shown in blue, is depicted in the following figure:
 
 <p align="center">
-<img src="images/final-unet.png" width="200">
+<img src="images/final-unet.png" width="600">
 </p>
 
-Not only this obtains segmentation masks, but also x, y coordinates of the antecubital region, as well as the arm's angle.
+Inference is performed with grayscale images of 512x512 pixels. The net obtains a mask, coordinates of the antecubital fossa, and an angle. 
 
 ## Proposed Hardware Device
 
