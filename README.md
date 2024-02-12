@@ -61,9 +61,9 @@ The database used for this work was built from scratch. 1,008 subjects with low-
 
 |  NIR Images |  Preprocessing |  Annotations |  
 |---|---|---|
-|<img src="images/samples/nir1.jpg" width="150px"/> | <img src=images/samples/preprocessed_image1.jpg  width="150px"/> | <img src=images/samples/annotation1.jpg width="150px"/> |
-|<img src="images/samples/nir2.jpg" width="150px"/> | <img src=images/samples/preprocessed_image2.jpg  width="150px"/> | <img src=images/samples/annotation2.jpg width="150px"/> |
-|<img src="images/samples/nir3.jpg" width="150px"/> | <img src=images/samples/preprocessed_image3.jpg  width="150px"/> | <img src=images/samples/annotation3.jpg width="150px"/> |
+|<img src="images/samples/nir1.jpg" width="250px"/> | <img src=images/samples/preprocessed_image1.jpg  width="250px"/> | <img src=images/samples/annotation1.jpg width="250px"/> |
+|<img src="images/samples/nir2.jpg" width="250px"/> | <img src=images/samples/preprocessed_image2.jpg  width="250px"/> | <img src=images/samples/annotation2.jpg width="250px"/> |
+|<img src="images/samples/nir3.jpg" width="250px"/> | <img src=images/samples/preprocessed_image3.jpg  width="250px"/> | <img src=images/samples/annotation3.jpg width="250px"/> |
 
 <!-- # Experimental Results
 
