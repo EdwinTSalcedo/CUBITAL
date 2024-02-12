@@ -9,10 +9,9 @@ This repository contains supplementary material for [*"Edge AI-Based Vein Detect
 <div align="center">
   <a href="#Overview"><b>Overview</b></a> |
   <a href="#Dataset"><b>Dataset</b></a> |
-  <a href="#Results"><b>Results</b></a> |
-  <a href="#Getting Started"><b>Getting Started</b></a> |
+  <!-- <a href="#Getting Started"><b>Getting Started</b></a> |
   <a href="#Validation"><b>Validation</b></a> |
-  <a href="#Results"><b>Results</b></a> |
+  <a href="#Results"><b>Results</b></a> | -->
   <a href="#Citation"><b>Citation</b></a>
 </div>
 
@@ -46,33 +45,37 @@ Inference is performed with grayscale images of 512x512 pixels. The net obtains 
   <img src="images/posterior.png" height="240">
 </p>
 
-| Component | Technical details | CAD Design |
-| --- | --- | --- |
-| Case |  |  |
-| Powerbank |  |  |
-| Raspberry Pi |  |  |
-| Picam NoIR |  |  |
-| Switch |  |  |
-| LCD |  |  |
-| Relay |  |  |
+| Component | CAD Design |
+| --- | --- | 
+| Case | [`Base`](cad/base.SLDPRT) [`Cover`](cad/cover.SLDPRT) [`Charger`](cad/charger.SLDPRT) |
+| Battery | [`Case`](cad/battery_cover.SLDPRT) [`Holder`](cad/battery_holder.SLDPRT) [`Battery`](cad/battery.SLDPRT) |  
+| Camera | [`Holder`](cad/cam_holder.SLDPRT) [`Picam Noir`](cad/pi_cam.SLDPRT) [`Leds Matrix`](cad/leds_matrix.SLDPRT) |  
+| LCD Screen | [`Screen`](cad/lcd_screen.SLDPRT) [`LCD Assembly`](cad/rpi_lcd.SLDPRT) | 
+| Other Parts | [`Power bank`](cad/powerbank.SLDPRT) [`Relay`](cad/relay_module.SLDPRT) [`Raspberry Pi 4B`](cad/raspberryPi4B.SLDPRT) |  
+
+The complete device can be assembled by opening the file [`Ensamblaje.SLDASM`](cad/Ensamblaje.SLDASM).
 
 # Dataset
 
 The database used for this work was built from scratch. 1,008 subjects with low-visible veins placed one arm at a time, while we captured a NIR image with the initial version of the vein finder. For more specific information about the labelling process, please refer to the paper. The final version of the dataset can be found here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). We created an additional [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) version with normalized samples of 512x512 dimensions for immediate training with the proposed notebooks in the repository. 
 
-|  NIR |  Preprocessed |  Annotations |  
+|  NIR Images |  Preprocessing |  Annotations |  
 |---|---|---|
-|<img src="images/samples/nir1.jpg" width="100%"/> | <img src=images/samples/preprocessed_image1.jpg  width="100%"/> | <img src=images/samples/annotation1.jpg width="100%"/> |
-|<img src="images/samples/nir2.jpg" width="100%"/> | <img src=images/samples/preprocessed_image2.jpg  width="100%"/> | <img src=images/samples/annotation2.jpg width="100%"/> |
-|<img src="images/samples/nir3.jpg" width="100%"/> | <img src=images/samples/preprocessed_image3.jpg  width="100%"/> | <img src=images/samples/annotation3.jpg width="100%"/> |
+|<img src="images/samples/nir1.jpg" width="150px"/> | <img src=images/samples/preprocessed_image1.jpg  width="150px"/> | <img src=images/samples/annotation1.jpg width="150px"/> |
+|<img src="images/samples/nir2.jpg" width="150px"/> | <img src=images/samples/preprocessed_image2.jpg  width="150px"/> | <img src=images/samples/annotation2.jpg width="150px"/> |
+|<img src="images/samples/nir3.jpg" width="150px"/> | <img src=images/samples/preprocessed_image3.jpg  width="150px"/> | <img src=images/samples/annotation3.jpg width="150px"/> |
 
-# Experimental Results
+<!-- # Experimental Results
+
+## Validation
+
+## Interface
 
 # Getting started
 
 ## Requirements
 
-## Inference
+## Inference -->
 
 
 # Citation
