@@ -1,0 +1,7 @@
+opencv-contrib-python==4.8.0.76
+opencv-python==4.8.0.76
+numpy==1.23.5
+glob2==0.7
+matplotlib==3.7.1
+pandas==1.5.3
+tensorflow==2.15.0
