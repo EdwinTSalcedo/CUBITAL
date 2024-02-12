@@ -80,7 +80,7 @@ With the project, we provide you with one pretrained multi-task unet model, whic
 
 ```bash
 # Clone the repository
-git@github.com:EdwinTSalcedo/CUBITAL.git
+git clone git@github.com:EdwinTSalcedo/CUBITAL.git cubital
 
 # Create and activate a new conda environment
 conda create -n new_env python=3.10.12

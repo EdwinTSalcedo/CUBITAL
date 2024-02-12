@@ -11,12 +11,22 @@ import random
 import tensorflow as tf
 
 # Unzip the subset
-SUBSET_PATH = "images/subset.zip"
 LOCAL_DATASET_PATH = "subset"
 if os.path.exists(LOCAL_DATASET_PATH):
   shutil.rmtree(LOCAL_DATASET_PATH)
 
-!unzip -qn "$GDRIVE_DATASET_PATH" -d "$LOCAL_DATASET_PATH" > /dev/null
+SUBSET_PATH = "images/subset.zip"
+
+os.system(f"unzip -qn {SUBSET_PATH} -d {LOCAL_DATASET_PATH} > /dev/null")
+for folder in glob(LOCAL_DATASET_PATH+"/*"):
+  for in_folder in glob(folder+"/*"):
+    file_name = in_folder.split("/")[2]
+    shutil.move(in_folder,os.path.join(LOCAL_DATASET_PATH, file_name))
+  
+  shutil.rmtree(folder)
+
+shutil.rmtree(os.path.join(LOCAL_DATASET_PATH, "subset"))
+
 dataset = pd.read_csv(os.path.join(LOCAL_DATASET_PATH, "dataset.csv"), index_col=[0])
 
 IMAGE_SIZE = 512
@@ -126,7 +136,10 @@ def plot_visualization(real_data, predicted_data):
     end_point = (data["x"]+int(size/2), data["y"]+int(size/2))
     new_image2 = cv2.rectangle(new_image2, start_point, end_point, (0,255,0), 5)
     visualization.append(new_image2)
-    cv2.imwrite(f"inference.jpg", cv2.cvtColor(new_image, cv2.COLOR_BGR2RGB))
+    cv2.imshow("Inference", cv2.cvtColor(new_image2, cv2.COLOR_BGR2RGB))
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
 
   f, ax = plt.subplots(2, 2, sharey=True, sharex=True, figsize=(12, 7))
 
