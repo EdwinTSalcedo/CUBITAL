@@ -12,6 +12,7 @@ This repository contains supplementary material for [*"Edge AI-Based Vein Detect
   <a href="#Results"><b>Results</b></a> |
   <a href="#Getting Started"><b>Getting Started</b></a> |
   <a href="#Validation"><b>Validation</b></a> |
+  <a href="#Results"><b>Results</b></a> |
   <a href="#Citation"><b>Citation</b></a>
 </div>
 
@@ -27,13 +28,13 @@ In view of the above, we introduce a new NIR-based forearm vein segmentation dat
 ## Proposed framework and DL architecture
 The framework to extract veins in the antecubital region consists of the next steps:  
 <p align="center">
-<img src="images/pipeline.png" width="600">
+<img src="images/pipeline.png" width="700">
 </p>
 
 The segmentation model, shown in blue, is depicted in the following figure:
 
 <p align="center">
-<img src="images/final-unet.png" width="600">
+<img src="images/final-unet.png" width="700">
 </p>
 
 Inference is performed with grayscale images of 512x512 pixels. The net obtains a mask, coordinates of the antecubital fossa, and an angle. 
@@ -61,7 +62,9 @@ The database used for this work was built from scratch. 1,008 subjects with low-
 
 |  NIR |  Preprocessed |  Annotations |  
 |---|---|---|
-|<img src="samples/0.png" width="300"/> | <img src=samples/0_prep.png alt="drawing" width="300"/> | <img src=samples/0_prep.png alt="drawing" width="300"/> |
+|<img src="images/samples/nir1.jpg" width="100%"/> | <img src=images/samples/preprocessed_image1.jpg  width="100%"/> | <img src=images/samples/annotation1.jpg width="100%"/> |
+|<img src="images/samples/nir2.jpg" width="100%"/> | <img src=images/samples/preprocessed_image2.jpg  width="100%"/> | <img src=images/samples/annotation2.jpg width="100%"/> |
+|<img src="images/samples/nir3.jpg" width="100%"/> | <img src=images/samples/preprocessed_image3.jpg  width="100%"/> | <img src=images/samples/annotation3.jpg width="100%"/> |
 
 # Experimental Results
 
