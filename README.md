@@ -89,13 +89,11 @@ conda activate new_env
 # Install the dependencies 
 pip install -r requirements.txt
 
-# Exe 
+# Execute inference script
 python inference.py
 ```
 
 The pretrained serialized models for this pipeline are placed in `edge/models`, while their detailed implementations are located in `notebooks`.
-
-## Inference 
 
 
 # Citation
