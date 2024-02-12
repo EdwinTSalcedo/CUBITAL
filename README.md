@@ -9,7 +9,8 @@ This repository contains supplementary material for [*"Edge AI-Based Vein Detect
 <div align="center">
   <a href="#Overview"><b>Overview</b></a> |
   <a href="#Dataset"><b>Dataset</b></a> |
-  <!-- <a href="#Getting Started"><b>Getting Started</b></a> |
+  <a href="#Getting Started"><b>Getting Started</b></a> |
+  <!--
   <a href="#Validation"><b>Validation</b></a> |
   <a href="#Results"><b>Results</b></a> | -->
   <a href="#Citation"><b>Citation</b></a>
@@ -36,7 +37,7 @@ The segmentation model, shown in blue, is depicted in the following figure:
 <img src="images/final-unet.png" width="700">
 </p>
 
-Inference is performed with grayscale images of 512x512 pixels. The net obtains a mask, coordinates of the antecubital fossa, and an angle. 
+Inference is performed with grayscale images of 512x512 pixels. The net outputs a mask, coordinates of the antecubital fossa, and an angle. 
 
 ## Proposed Hardware Device
 
@@ -57,7 +58,7 @@ The complete device can be assembled by opening the file [`Ensamblaje.SLDASM`](c
 
 # Dataset
 
-The database used for this work was built from scratch. 1,008 subjects with low-visible veins placed one arm at a time, while we captured a NIR image with the initial version of the vein finder. For more specific information about the labelling process, please refer to the paper. The final version of the dataset can be found here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). We created an additional [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) version with normalized samples of 512x512 dimensions for immediate training with the proposed notebooks in the repository. 
+The database used for this work was built from scratch. 1,008 subjects with low-visible veins placed one arm at a time over a table. Then, we captured a NIR image with the initial version of the vein finder. For more specific information about the labelling process and data collection process, please refer to the paper. The final version of the dataset can be found here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). We created an additional [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) version with normalized samples of 512x512 dimensions for immediate training with the proposed architecture. 
 
 |  NIR Images |  Preprocessing |  Annotations |  
 |---|---|---|
@@ -71,11 +72,30 @@ The database used for this work was built from scratch. 1,008 subjects with low-
 
 ## Interface
 
+-->
+
 # Getting started
 
-## Requirements
+With the project, we provide you with one pretrained multi-task unet model, which is embedded inside a complete pipeline to generate inference given a NIR image. You can execute the latter by following the next steps: 
 
-## Inference -->
+```bash
+# Clone the repository
+git@github.com:EdwinTSalcedo/CUBITAL.git
+
+# Create and activate a new conda environment
+conda create -n new_env python=3.10.12
+conda activate new_env
+
+# Install the dependencies 
+pip install -r requirements.txt
+
+# Exe 
+python inference.py
+```
+
+The pretrained serialized models for this pipeline are placed in `edge/models`, while their detailed implementations are located in `notebooks`.
+
+## Inference 
 
 
 # Citation
