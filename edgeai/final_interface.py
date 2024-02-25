@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import *
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import *
 import cv2
 import time
@@ -23,6 +24,7 @@ class UI_MainWindow():
         self.picture_pixmaps = {}
 
         # Set main window
+        main_window.setWindowTitle("CUBITAL")
         main_window.setObjectName("main_window")
         main_window.resize(670, 370)
         self.central_widget = QtWidgets.QWidget(main_window)
@@ -36,10 +38,15 @@ class UI_MainWindow():
         self.start_stream_button = QtWidgets.QPushButton(self.central_widget)
         self.start_stream_button.setGeometry(QtCore.QRect(500, 263, 80, 70))
         self.start_stream_button.setObjectName("start_stream_button")
+        self.start_stream_button.clicked.connect(self.start_video)
+        self.start_stream_button.setText("START")
         # Set buttons for capturing pictures
         self.take_picture_button = QtWidgets.QPushButton(self.central_widget)
         self.take_picture_button.setGeometry(QtCore.QRect(582, 263, 80, 70))
         self.take_picture_button.setObjectName("take_picture_button")
+        self.take_picture_button.clicked.connect(self.save_picture)
+        self.take_picture_button.setText("CAPTURE")
+        
         # Set buttons for selecting pictures on the right
         self.picture1_button = QtWidgets.QPushButton(self.central_widget)
         self.picture1_button.setGeometry(QtCore.QRect(500, 3, 165, 124))
@@ -52,6 +59,22 @@ class UI_MainWindow():
         self.picture2_button.setObjectName("picture2_button")
         self.picture2_button.clicked.connect(self.visualize_picture2)
 
+        # Set labels to ask to press the buttons again
+        self.label_first_picture = QtWidgets.QLabel(self.central_widget)
+        self.label_first_picture.setGeometry(QtCore.QRect(500, 97, 165, 25))
+        self.label_first_picture.setObjectName("label_first_picture")
+        self.label_first_picture.setText("Press again")
+        self.label_first_picture.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_first_picture.setVisible(False)
+        self.label_first_picture.setStyleSheet("background-color: black;color:white;opacity: 0.7;") 
+        self.label_second_picture = QtWidgets.QLabel(self.central_widget)
+        self.label_second_picture.setGeometry(QtCore.QRect(500, 225, 165, 25))
+        self.label_second_picture.setObjectName("label_second_picture")
+        self.label_second_picture.setText("Press again")
+        self.label_second_picture.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_second_picture.setVisible(False)
+        self.label_second_picture.setStyleSheet("background-color: black;color:white;opacity: 0.7;") 
+
         # Finish configuring the main window 
         main_window.setCentralWidget(self.central_widget)
         self.menubar = QtWidgets.QMenuBar(main_window)
@@ -61,19 +84,7 @@ class UI_MainWindow():
         self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
         main_window.setStatusBar(self.statusbar)
-
-        # Add events to the buttons
-        self.start_stream_button.clicked.connect(self.start_video)
-        self.take_picture_button.clicked.connect(self.save_picture)
-
-        self.retranslate_UI(main_window)
         QtCore.QMetaObject.connectSlotsByName(main_window)
-
-    def retranslate_UI(self, main_window):
-        _translate = QtCore.QCoreApplication.translate
-        main_window.setWindowTitle(_translate("MainWindow", "CUBITAL"))
-        self.start_stream_button.setText(_translate("MainWindow", "START"))
-        self.take_picture_button.setText(_translate("MainWindow", "CAPTURE"))
 
     def start_video(self):
         if self.camera_on:
@@ -122,9 +133,11 @@ class UI_MainWindow():
             self.start_stream_button.setText("START")
             self.take_picture_button.setEnabled(False)
             self.label.setVisible(False)
+            self.label_first_picture.setVisible(True)
         else: 
             self.label.setPixmap(self.picture_pixmaps["first"])
             self.label.setVisible(True)
+            self.label_first_picture.setVisible(False)
 
     def visualize_picture2(self):
         if self.camera_on:
@@ -134,9 +147,11 @@ class UI_MainWindow():
             self.start_stream_button.setText("START")
             self.take_picture_button.setEnabled(False)
             self.label.setVisible(False)
+            self.label_second_picture.setVisible(True)
         else:
             self.label.setPixmap(self.picture_pixmaps["second"])
             self.label.setVisible(True)
+            self.label_second_picture.setVisible(False)
 
 class Work(QThread):
     Imageupd = pyqtSignal(QImage)
