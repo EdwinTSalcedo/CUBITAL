@@ -21,7 +21,8 @@ VERSION_ID=3.12.1
 PRETTY_NAME="Alpine Linux v3.12"
 HOME_URL="https://alpinelinux.org/"
 BUG_REPORT_URL="https://bugs.alpinelinux.org/"
-architecture
+
+aarch64 GNU/Linux
 ```
 
 For the Python version:
@@ -90,11 +91,12 @@ $ cd cubital
 $ sudo pip3 install virtualenv
 $ python3 -m venv env
 $ source env/bin/activate
+$ cd edgeai
 ```
 
 2. Install the dependencies
 ```console
-pip3 install -R requirements.txt 
+pip3 install -r requirements.txt 
 ```
 
 3. Execute the interface
