@@ -6,22 +6,31 @@
 
 2. Check the Raspberry OS characteristics
 
-For the OS version and architecture:
-```console
+For the OS version:
+```bash
 $ cat /etc/os-release 
-$ uname -a
 ```
 
 This should show: 
 
+```console
+PRETTY_NAME="Debian GNU/Linux 11 (bullseye)"
+NAME="Debian GNU/Linux"
+VERSION_ID="11"
+VERSION="11 (bullseye)"
+VERSION_CODENAME=bullseye
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
 ```
-NAME="Raspberry OS"
-ID=alpine
-VERSION_ID=3.12.1
-PRETTY_NAME="Alpine Linux v3.12"
-HOME_URL="https://alpinelinux.org/"
-BUG_REPORT_URL="https://bugs.alpinelinux.org/"
 
+For the OS architecture:
+```bash
+$ uname -a
+```
+
+```console
 aarch64 GNU/Linux
 ```
 
