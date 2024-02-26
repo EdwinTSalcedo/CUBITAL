@@ -109,6 +109,8 @@ $ pip3 install opencv-python
 $ python pyqt_interface.py
 ```
 
+Alternatively, you can try running the file `picamera_implementation.py`. This contains a similar interface and uses `picamera` to access the camera.  
+
 
 ## Installation on Linux, Windows, MACOS
 
