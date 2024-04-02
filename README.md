@@ -2,10 +2,6 @@
 
 This repository contains supplementary material for [*"Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa"*](https://arxiv.org/pdf/2310.18234.pdf) (MICAI 2023 Oral session). **Authors:** [Edwin Salcedo](https://www.linkedin.com/in/edwinsalcedo), [Patricia Peñaloza](https://www.linkedin.com/in/patricia-jael-pe%C3%B1aloza-sola-6b9b65131)
 
-<p align="center">
-  <img src="images/inference2.png" width="65%">
-</p>
-
 <div align="center">
   <a href="#Overview"><b>Overview</b></a> |
   <a href="#Dataset"><b>Dataset</b></a> |
@@ -69,6 +65,9 @@ The database used for this work was built from scratch. 1,008 subjects with low-
 <!-- # Experimental Results
 
 ## Validation
+<p align="center">
+  <img src="images/inference2.png" width="65%">
+</p>
 
 ## Interface
 
