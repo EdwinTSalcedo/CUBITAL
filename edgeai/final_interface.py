@@ -7,11 +7,25 @@ import time
 from PIL import ImageQt
 import os
 import sys
-import shutil
+import shutil  
+import numpy as np
+import tensorflow as tf
+
+INPUT_MODEL_DIMENSION = 512  #Options: 512, 256, 128, 64
+
+# Load the TFLite model and allocate tensors. Note this load the corresponding model given the input dimensions. 
+interpreter = tf.lite.Interpreter(model_path=f"models/unet{INPUT_MODEL_DIMENSION}x{INPUT_MODEL_DIMENSION}.tflite")
+
+# Assign memory addresses to save new data in tensor format
+interpreter.allocate_tensors()
+
+# Get input and output tensors
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
 
 # Define path variables
 HOME = os.getcwd()
-PICTURES_PATH = os.path.join(HOME, "edgeai","pictures")
+PICTURES_PATH = os.path.join(HOME, "pictures")
 
 # Check if the folder exists
 if os.path.exists(PICTURES_PATH):
@@ -162,16 +176,51 @@ class Work(QThread):
         while self.running_thread:
             ret, frame = cap.read()
             if ret:
-                Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                flip = cv2.flip(Image, 1)
-                convertir_QT = QImage(flip.data, flip.shape[1], flip.shape[0], QImage.Format.Format_RGB888)
-                # pic = convertir_QT.scaled(480, 320, Qt.KeepAspectRatio)
-                pic = convertir_QT.scaled(480, 320)
-                self.Imageupd.emit(pic)
+                image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                image = cv2.flip(image, 1)
+
+                new_image_to_segment = image[:,420:1500,:]
+                new_image_to_segment = cv2.resize(new_image_to_segment, (512, 512), interpolation = cv2.INTER_AREA)
+                mask = self.segment_regions(new_image_to_segment)
+                resized_mask = cv2.resize(mask, (320, 320), interpolation = cv2.INTER_AREA)
+
+                scaled_image_to_display = cv2.resize(image, (569, 320), interpolation = cv2.INTER_AREA)
+                scaled_image_to_display = scaled_image_to_display[:,45:525,:]
+                masked_image = np.zeros(scaled_image_to_display.shape, dtype=np.uint8)
+
+                masked_image[:,80:400,:] = resized_mask
+
+                combined = cv2.addWeighted(scaled_image_to_display, 1, masked_image, 0.8, 0)
+                qimage = QImage(combined.data, combined.shape[1], combined.shape[0], QImage.Format.Format_RGB888)
+                self.Imageupd.emit(qimage)
 
     def stop(self):
         self.running_thread = False
         self.quit()
+
+    def segment_regions(self, image):
+       image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)  
+       clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+       image = clahe.apply(image)
+       image = image.astype(dtype=np.float32) / 127.5 - 1
+
+       image = np.expand_dims(np.expand_dims((image), axis=0), axis=3)
+
+       interpreter.set_tensor(input_details[0]['index'], image)
+
+       interpreter.invoke()
+
+       # The function `get_tensor()` returns a copy of the tensor data.
+       output_data = interpreter.get_tensor(output_details[0]['index'])
+       predictions = np.squeeze(output_data)
+       predictions = np.argmax(predictions, axis=2)
+       prediction_mask = predictions.astype(np.uint8)
+
+       output = cv2.cvtColor(prediction_mask, cv2.COLOR_GRAY2RGB)
+       output[prediction_mask == 2] = [0, 255, 0]
+       output[prediction_mask == 1] = [0, 0, 0]
+
+       return output
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
