@@ -7,57 +7,76 @@ This repository contains supplementary material for the conference paper [*"Edge
 
 ## Contents
 [1. Overview](#overview) </br>
+* [Motivation](#motivation) </br>
+* [Computer vision system](#cvsystem) </br>
+* [Hardware prototype](#hardwareprototype) </br>
+
 [2. Dataset](#dataset) </br>
-[3. Getting Started](#gettingstarted) </br>
+[3. Getting started](#gettingstarted) </br>
 [4. Citation](#citation) </br>
 <br>
 
 <a id="overview"></a> 
-# 1. Overview
+## 1. Overview
 
-## Motivation
+<a id="motivation"></a> 
+### Motivation
 Assessing vein condition and visibility is crucial before obtaining intravenous access in the antecubital fossa, a common site for blood draws and intravenous therapy. However, medical practitioners often struggle with patients who have less visible veins due to factors such as fluid retention, age, obesity, dark skin tone, or diabetes. Current research explores the use of near-infrared (NIR) imaging and deep learning (DL) for forearm vein segmentation, achieving high precision. However, a research gap remains in recognising veins specifically in the antecubital fossa. Additionally, most studies rely on stationary computers, limiting portability for medical personnel during venipuncture procedures. To address these challenges, we propose a portable vein finder for the antecubital fossa based on the Raspberry Pi 4B.
 
-## CV pipeline and DL architecture
-The CV pipeline for vein recognition in the antecubital region involves the following steps: 
+<a id="cvsystem"></a> 
+### Computer vision system
+We implemented various vein semantic segmentation models in <a href="https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Deep_Learning_based_Segmentation.ipynb">`Deep_Learning_based_Segmentation.ipynb`</a> and selected the best-performing one—a U-Net model. We then enhanced it in <a href="https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Inference_Multi_task_U_Net.ipynb">`Inference_Multi_task_U_Net.ipynb`</a> by adding an additional head to predict the coordinates of the antecubital fossa and its angle. The final computer vision system deployed in the vein finder is shown below:
 
 <p align="center">
-<img src="images/pipeline.png" width="700">
+<img src="images/graphical-abstract.png" width="700">
 </p>
 
-<p align="center">
-<img src="images/final-unet.png" width="700">
-</p>
+<a id="hardwareprototype"></a> 
+### Hardware prototype
 
-We implemented different vein semantic segmentation models, and modified the best one, a U-Net model, including an additional head to identify coordinates of the antecubital fossa, and an angle. 
-
-## Hardware Prototype
+The device was designed using the 3D CAD software SolidWorks. It can be viewed by opening the file [`Ensamblaje.SLDASM`](cad/Ensamblaje.SLDASM). We also provide a detailed list of its components and visuals of the final 3D-printed prototype.
 
 <p align="center">
   <img src="images/isometric.png" height="240">
   <img src="images/posterior.png" height="240">
 </p>
 
-| Component | CAD Design |
-| --- | --- | 
-| Case | [`Base`](cad/base.SLDPRT) [`Cover`](cad/cover.SLDPRT) [`Charger`](cad/charger.SLDPRT) |
-| Battery | [`Case`](cad/battery_cover.SLDPRT) [`Holder`](cad/battery_holder.SLDPRT) [`Battery`](cad/battery.SLDPRT) |  
-| Camera | [`Holder`](cad/cam_holder.SLDPRT) [`Picam Noir`](cad/pi_cam.SLDPRT) [`Leds Matrix`](cad/leds_matrix.SLDPRT) |  
-| LCD Screen | [`Screen`](cad/lcd_screen.SLDPRT) [`LCD Assembly`](cad/rpi_lcd.SLDPRT) | 
-| Additional Parts | [`Power bank`](cad/powerbank.SLDPRT) [`Relay`](cad/relay_module.SLDPRT) [`Raspberry Pi 4B`](cad/raspberryPi4B.SLDPRT) |  
+| Component | Specifications |  CAD Design |
+| --- | --- | --- | 
+| Power bank | <a href="https://www.amazon.com/Xiaomi-10000mAh-Portable-Charging-Delivery/dp/B08WCKLBJJ" target="_blank"> Xiaomi Mi Power Bank 3 </a> | [`Power bank`](cad/powerbank.SLDPRT) | 
+| NIR camera | <a href="https://www.raspberrypi.com/products/pi-noir-camera-v2/" target="_blank"> Raspberry Pi Camera Module 2 NoIR </a> | [`Holder`](cad/cam_holder.SLDPRT) [`Picam Noir`](cad/pi_cam.SLDPRT) [`Leds Matrix`](cad/leds_matrix.SLDPRT) |  
+| LCD display | <a href="https://www.waveshare.com/3.5inch-rpi-lcd-b.htm" target="_blank"> Waveshare 3.5inch Touch Screen </a> | [`Screen`](cad/lcd_screen.SLDPRT) [`LCD Assembly`](cad/rpi_lcd.SLDPRT) |  
+| Processing unit | <a href="https://www.raspberrypi.com/products/raspberry-pi-4-model-b/" target="_blank"> Raspberry Pi 4 Model B </a> | [`Raspberry Pi 4B`](cad/raspberryPi4B.SLDPRT) | 
+| Relay module | <a href="https://www.amazon.com/Channel-Module-Trigger-Optocoupler-Arduino/dp/B079FJSYGY?th=1" target="_blank"> DC 5V 1 Channel Relay Module with Optocoupler </a> | [`Relay`](cad/relay_module.SLDPRT) |
+| LED matrix | <a href="https://www.alibaba.com/product-detail/5x7cm-Placa-PCB-perforated_300011363294.html" target="_blank"> Perforated Phenolic Plate 5x7cm </a> + 12 <a href="https://www.amazon.com/Infrared-Lighting-Electronics-Components-Emitting/dp/B01BVGIZGC?th=1" target="_blank"> Infrared Ray IR 940nm Emitter LED Diode Lights </a> | [`LED Matrix`](cad/leds_matrix.SLDPRT) |
+| On/off switch | <a href="https://www.amazon.com/KCD1-101-Perforate-19-13-Pin/dp/B0DCP5RSXF?th=1" target="_blank"> ON-OFF Switch 19*13mm KCD1-101 </a> | - |
+| Case | - | [`Base`](cad/base.SLDPRT) [`Cover`](cad/cover.SLDPRT) [`Charger`](cad/charger.SLDPRT) |
+| 9v battery holder | - | [`Case`](cad/battery_cover.SLDPRT) [`Holder`](cad/battery_holder.SLDPRT) [`Battery`](cad/battery.SLDPRT) | 
+ 
+<!-- |  Frontal view |  Side view |  Back view |   Interior view |  
+|---|---|---|---|
+|<img src="images/samples/nir1.jpg" width="250px"/> | <img src=images/samples/preprocessed_image1.jpg  width="250px"/> | <img src=images/samples/annotation1.jpg width="250px"/> | <img src=images/samples/annotation1.jpg width="250px"/> |   -->
 
-The complete device can be assembled by opening the file [`Ensamblaje.SLDASM`](cad/Ensamblaje.SLDASM).
-
-# 2. Dataset
 <a id="dataset"></a>
+## 2. Dataset
 
-To collect the dataset, 1,008 subjects with low-visible veins placed one arm at a time on a table. Then, we captured an NIR image with the preliminary version of the vein finder. Below, you can see the original NIR samples, their preprocessed version (). The final version of the dataset can be found here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). We created an additional [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) version with normalized samples with dimensions of 512x512 pixels for training with the proposed architecture. 
+To collect the dataset, 1,008 subjects with low-visible veins placed one arm at a time on a table. We then captured an NIR image using the preliminary version of the vein finder. The final version of the dataset is available here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). Additionally, we created an alternative [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) with normalized samples (512x512 pixels) for training with the proposed architecture. 
 
-|  NIR Images |  Preprocessing |  Annotations |  
+Below, you can see the original NIR samples, their preprocessed versions (after applying grayscale conversion and CLAHE), and their annotations: a grayscale mask overlay (with a different colormap for visualisation), a dot representing the x and y coordinates of the antecubital region, and a floating number representing the arm’s angle orientation. We also include a detailed explanation of the dataset folder structure.
+
+|  NIR Images |  Preprocessed Images |  Annotations |  
 |---|---|---|
 |<img src="images/samples/nir1.jpg" width="250px"/> | <img src=images/samples/preprocessed_image1.jpg  width="250px"/> | <img src=images/samples/annotation1.jpg width="250px"/> |
 |<img src="images/samples/nir2.jpg" width="250px"/> | <img src=images/samples/preprocessed_image2.jpg  width="250px"/> | <img src=images/samples/annotation2.jpg width="250px"/> |
-|<img src="images/samples/nir3.jpg" width="250px"/> | <img src=images/samples/preprocessed_image3.jpg  width="250px"/> | <img src=images/samples/annotation3.jpg width="250px"/> |
+|<img src="images/samples/nir3.jpg" width="250px"/> | <img src=images/samples/preprocessed_image3.jpg  width="250px"/> | <img src=images/samples/annotation3.jpg width="250px"/> | 
+
+``` shell
+final_dataset/
+------------- datasets.csv # Demographic data for each sample includes age, complexion, gender, observations, NIR image location, preprocessed image location, mask location, antecubital fossa coordinates, and arm angle. Each subject contributed two samples, one for each arm.
+------------- masks/  # Grayscale images with pixel values 0,1, and 2 representing background, arm, vein, respectively.
+------------- nir_images/ # NIR images
+------------- preprocessed_images/ # The same NIR images after applying grayscale conversion and CLAHE.
+```
 
 <!-- # Experimental Results
 
@@ -71,7 +90,7 @@ To collect the dataset, 1,008 subjects with low-visible veins placed one arm at 
 -->
 
 <a id="gettingstarted"></a>
-# 3. Getting Started
+## 3. Getting started
 
 With the project, we provide you with one pretrained multi-task unet model, which is embedded inside a complete pipeline to generate inference given a NIR image. You can execute the latter by following the next steps: 
 
@@ -93,9 +112,9 @@ python inference.py
 The pretrained serialized models for this pipeline are placed in `edge/models`, while their detailed implementations are located in `notebooks`.
 
 <a id="citation"></a>
-# 4. Citation
+## 4. Citation
 
-If you find *CUBITAL* useful in your project, please consider to cite the following paper:
+If you find *CUBITAL* useful in your project, please consider citing the following paper:
 
 ```
 @inproceedings{salcedo2023,
