@@ -73,7 +73,7 @@ The database used for this work was built from scratch. 1,008 subjects with low-
 
 -->
 
-# Getting started
+# Getting Started
 
 With the project, we provide you with one pretrained multi-task unet model, which is embedded inside a complete pipeline to generate inference given a NIR image. You can execute the latter by following the next steps: 
 
