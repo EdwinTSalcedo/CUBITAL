@@ -12,8 +12,8 @@ This repository contains supplementary material for the conference paper [*"Edge
 [4. Citation](#citation) </br>
 <br>
 
+<a id="overview"></a> 
 # 1. Overview
-<a id="overview"></a>
 
 ## Motivation
 Assessing vein condition and visibility is crucial before obtaining intravenous access in the antecubital fossa, a common site for blood draws and intravenous therapy. However, medical practitioners often struggle with patients who have less visible veins due to factors such as fluid retention, age, obesity, dark skin tone, or diabetes. Current research explores the use of near-infrared (NIR) imaging and deep learning (DL) for forearm vein segmentation, achieving high precision. However, a research gap remains in recognising veins specifically in the antecubital fossa. Additionally, most studies rely on stationary computers, limiting portability for medical personnel during venipuncture procedures. To address these challenges, we propose a portable vein finder for the antecubital fossa based on the Raspberry Pi 4B.
@@ -70,8 +70,8 @@ To collect the dataset, 1,008 subjects with low-visible veins placed one arm at 
 
 -->
 
-# 3. Getting Started
 <a id="gettingstarted"></a>
+# 3. Getting Started
 
 With the project, we provide you with one pretrained multi-task unet model, which is embedded inside a complete pipeline to generate inference given a NIR image. You can execute the latter by following the next steps: 
 
@@ -92,9 +92,9 @@ python inference.py
 
 The pretrained serialized models for this pipeline are placed in `edge/models`, while their detailed implementations are located in `notebooks`.
 
-
-# 4. Citation
 <a id="citation"></a>
+# 4. Citation
+
 If you find *CUBITAL* useful in your project, please consider to cite the following paper:
 
 ```
