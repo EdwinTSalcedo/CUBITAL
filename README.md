@@ -6,19 +6,19 @@ This repository contains supplementary material for the conference paper [*"Edge
 
 
 ## Contents
-[1. Overview](https://github.com/EdwinTSalcedo/CUBITAL#1-overview) </br>
-  <a href="#Overview">1. Overview</a> </br>
-  <a href="#Dataset">2. Dataset</a> </br>
-  <a href="#Getting Started">3. Installation</a> </br>
-  <a href="#Citation">4. Citation</a>
+[1. Overview](#overview) </br>
+[2. Dataset](#dataset) </br>
+[3. Getting Started](#gettingstarted) </br>
+[4. Citation](#citation) </br>
 <br>
 
-# Overview
+# 1. Overview
+<a id="overview"></a>
 
 ## Motivation
 Assessing vein condition and visibility is crucial before obtaining intravenous access in the antecubital fossa, a common site for blood draws and intravenous therapy. However, medical practitioners often struggle with patients who have less visible veins due to factors such as fluid retention, age, obesity, dark skin tone, or diabetes. Current research explores the use of near-infrared (NIR) imaging and deep learning (DL) for forearm vein segmentation, achieving high precision. However, a research gap remains in recognising veins specifically in the antecubital fossa. Additionally, most studies rely on stationary computers, limiting portability for medical personnel during venipuncture procedures. To address these challenges, we propose a portable vein finder for the antecubital fossa based on the Raspberry Pi 4B.
 
-## Proposed CV pipeline and DL architecture
+## CV pipeline and DL architecture
 The CV pipeline for vein recognition in the antecubital region involves the following steps: 
 
 <p align="center">
@@ -31,7 +31,7 @@ The CV pipeline for vein recognition in the antecubital region involves the foll
 
 We implemented different vein semantic segmentation models, and modified the best one, a U-Net model, including an additional head to identify coordinates of the antecubital fossa, and an angle. 
 
-## Proposed Hardware Device
+## Hardware Prototype
 
 <p align="center">
   <img src="images/isometric.png" height="240">
@@ -48,7 +48,8 @@ We implemented different vein semantic segmentation models, and modified the bes
 
 The complete device can be assembled by opening the file [`Ensamblaje.SLDASM`](cad/Ensamblaje.SLDASM).
 
-# Dataset
+# 2. Dataset
+<a id="dataset"></a>
 
 To collect the dataset, 1,008 subjects with low-visible veins placed one arm at a time on a table. Then, we captured an NIR image with the preliminary version of the vein finder. Below, you can see the original NIR samples, their preprocessed version (). The final version of the dataset can be found here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). We created an additional [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) version with normalized samples with dimensions of 512x512 pixels for training with the proposed architecture. 
 
@@ -69,7 +70,8 @@ To collect the dataset, 1,008 subjects with low-visible veins placed one arm at 
 
 -->
 
-# Installation
+# 3. Getting Started
+<a id="gettingstarted"></a>
 
 With the project, we provide you with one pretrained multi-task unet model, which is embedded inside a complete pipeline to generate inference given a NIR image. You can execute the latter by following the next steps: 
 
@@ -91,7 +93,8 @@ python inference.py
 The pretrained serialized models for this pipeline are placed in `edge/models`, while their detailed implementations are located in `notebooks`.
 
 
-# Citation
+# 4. Citation
+<a id="citation"></a>
 If you find *CUBITAL* useful in your project, please consider to cite the following paper:
 
 ```
