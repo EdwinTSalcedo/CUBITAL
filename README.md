@@ -37,8 +37,8 @@ We implemented various vein semantic segmentation models in <a href="https://git
 The device was designed using the 3D CAD software SolidWorks. It can be viewed by opening the file [`Ensamblaje.SLDASM`](cad/Ensamblaje.SLDASM). We also provide a detailed list of its components and visuals of the final 3D-printed prototype.
 
 <p align="center">
-  <img src="images/isometric.png" height="240">
-  <img src="images/posterior.png" height="240">
+  <img src="images/device/isometric.png" height="240">
+  <img src="images/device/posterior.png" height="240">
 </p>
 
 | Component | Specifications |  CAD Design |
@@ -53,14 +53,14 @@ The device was designed using the 3D CAD software SolidWorks. It can be viewed b
 | Case | - | [`Base`](cad/base.SLDPRT) [`Cover`](cad/cover.SLDPRT) [`Charger`](cad/charger.SLDPRT) |
 | 9v battery holder | - | [`Case`](cad/battery_cover.SLDPRT) [`Holder`](cad/battery_holder.SLDPRT) [`Battery`](cad/battery.SLDPRT) | 
  
-<!-- |  Frontal view |  Side view |  Back view |   Interior view |  
+|  Frontal view |  Side view |  Back view |   Interior view |  
 |---|---|---|---|
-|<img src="images/samples/nir1.jpg" width="250px"/> | <img src=images/samples/preprocessed_image1.jpg  width="250px"/> | <img src=images/samples/annotation1.jpg width="250px"/> | <img src=images/samples/annotation1.jpg width="250px"/> |   -->
+|<img src="images/device/2_compressed.png" width="250px"/> | <img src="images/device/4_compressed.png"  width="250px"/> | <img src="images/device/3_compressed.png" width="250px"/> | <img src="images/device/1_compressed.png" width="250px"/> |  
 
 <a id="dataset"></a>
 ## 2. Dataset
 
-To collect the dataset, 1,008 subjects with low-visible veins placed one arm at a time on a table. We then captured an NIR image using the preliminary version of the vein finder. The final version of the dataset is available here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). Additionally, we created an alternative [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) with normalized samples (512x512 pixels) for training with the proposed architecture. 
+To collect the dataset, 1,008 subjects with low-visible veins placed one arm at a time on a table, resulting in 2,016 images. We then captured an NIR image using the preliminary version of the vein finder. The final version of the dataset is available here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). Additionally, we created an alternative [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) with 8,000 augmented and normalized samples (512x512 pixels) for training with the proposed architecture. 
 
 Below, you can see the original NIR samples, their preprocessed versions (after applying grayscale conversion and CLAHE), and their annotations: a grayscale mask overlay (with a different colormap for visualisation), a dot representing the x and y coordinates of the antecubital region, and a floating number representing the arm’s angle orientation. We also include a detailed explanation of the dataset folder structure.
 
@@ -72,8 +72,8 @@ Below, you can see the original NIR samples, their preprocessed versions (after 
 
 ``` shell
 final_dataset/
-------------- datasets.csv # Demographic data for each sample includes age, complexion, gender, observations, NIR image location, preprocessed image location, mask location, antecubital fossa coordinates, and arm angle. Each subject contributed two samples, one for each arm.
-------------- masks/  # Grayscale images with pixel values 0,1, and 2 representing background, arm, vein, respectively.
+------------- dataset.csv # Demographic data for each sample includes age, complexion, gender, observations, NIR image location, preprocessed image location, mask location, antecubital fossa coordinates, and arm angle. Each subject contributed two samples, one for each arm.
+------------- masks/  # Grayscale images with pixel values 0,1, and 2 representing background, arm, and vein, respectively.
 ------------- nir_images/ # NIR images
 ------------- preprocessed_images/ # The same NIR images after applying grayscale conversion and CLAHE.
 ```
