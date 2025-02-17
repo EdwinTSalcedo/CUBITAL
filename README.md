@@ -53,10 +53,10 @@ The device was designed using the 3D CAD software SolidWorks. It can be viewed b
 | Component | Specifications |  CAD Design |
 | --- | --- | --- | 
 | Power bank | <a href="https://www.amazon.com/Xiaomi-10000mAh-Portable-Charging-Delivery/dp/B08WCKLBJJ" target="_blank"> Xiaomi Mi Power Bank 3 </a> | [`Power bank`](cad/powerbank.SLDPRT) | 
-| NIR camera | <a href="https://www.raspberrypi.com/products/pi-noir-camera-v2/" target="_blank"> Raspberry Pi Camera Module 2 NoIR </a> | [`Holder`](cad/cam_holder.SLDPRT) [`Picam Noir`](cad/pi_cam.SLDPRT) [`Leds Matrix`](cad/leds_matrix.SLDPRT) |  
+| NIR Camera | <a href="https://www.raspberrypi.com/products/pi-noir-camera-v2/" target="_blank"> Raspberry Pi Camera Module 2 NoIR </a> | [`Holder`](cad/cam_holder.SLDPRT) [`Picam Noir`](cad/pi_cam.SLDPRT) [`Leds Matrix`](cad/leds_matrix.SLDPRT) |  
 | LCD display | <a href="https://www.waveshare.com/3.5inch-rpi-lcd-b.htm" target="_blank"> Waveshare 3.5inch Touch Screen </a> | [`Screen`](cad/lcd_screen.SLDPRT) [`LCD Assembly`](cad/rpi_lcd.SLDPRT) |  
 | Processing unit | <a href="https://www.raspberrypi.com/products/raspberry-pi-4-model-b/" target="_blank"> Raspberry Pi 4 Model B </a> | [`Raspberry Pi 4B`](cad/raspberryPi4B.SLDPRT) | 
-| Relay module | <a href="https://www.amazon.com/Channel-Module-Trigger-Optocoupler-Arduino/dp/B079FJSYGY?th=1" target="_blank"> DC 5V 1 Channel Relay Module with Optocoupler </a> | [`Relay`](cad/relay_module.SLDPRT) |
+| Relay module | <a href="https://www.amazon.com/Channel-Module-Trigger-Optocoupler-Arduino/dp/B079FJSYGY?th=1" target="_blank"> D.C. 5V 1 Channel Relay Module with Optocoupler </a> | [`Relay`](cad/relay_module.SLDPRT) |
 | LED matrix | <a href="https://www.alibaba.com/product-detail/5x7cm-Placa-PCB-perforated_300011363294.html" target="_blank"> Perforated Phenolic Plate 5x7cm </a> + 12 <a href="https://www.amazon.com/Infrared-Lighting-Electronics-Components-Emitting/dp/B01BVGIZGC?th=1" target="_blank"> Infrared Ray IR 940nm Emitter LED Diode Lights </a> | [`LED Matrix`](cad/leds_matrix.SLDPRT) |
 | On/off switch | <a href="https://www.amazon.com/KCD1-101-Perforate-19-13-Pin/dp/B0DCP5RSXF?th=1" target="_blank"> ON-OFF Switch 19*13mm KCD1-101 </a> | - |
 | Case | - | [`Base`](cad/base.SLDPRT) [`Cover`](cad/cover.SLDPRT) [`Charger`](cad/charger.SLDPRT) |
