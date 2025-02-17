@@ -79,7 +79,7 @@ To collect the dataset, we captured 2016 NIR images of 1008 young individuals wi
 - **C:** `square_final_dataset512x512.zip` &rarr; This is a resized version of dataset A, with images reshaped to 512x512 pixels, to match the input requirements of the semantic segmentation models. 
 - **D:** `square_augmented_final_dataset512x512.zip` &rarr; Similarly, resized version of B (512x512).
 
-Below, you can see the original NIR samples, their preprocessed versions (after applying grayscale conversion and CLAHE), and their annotations: a grayscale mask overlay (with a different colormap for visualisation), a dot representing the x and y coordinates of the antecubital fossa, and a floating number representing the arm’s angle. Furthermore, we provide a detailed explanation of the file `final_dataset.zip`, which contains the base version of the dataset.
+Below, you can see the original NIR samples, their preprocessed versions (after applying grayscale conversion and CLAHE), and their annotations: a grayscale mask overlay (with a different colormap for visualization), a dot representing the x and y coordinates of the antecubital fossa, and a floating number representing the arm angle. Furthermore, we provide a detailed explanation of the file `final_dataset.zip`, which contains the base version of the dataset.
 
 |  NIR Images |  Preprocessed Images |  Annotations |  
 |---|---|---|
