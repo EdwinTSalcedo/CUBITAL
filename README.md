@@ -2,7 +2,11 @@
 
 This repository contains supplementary material for the conference paper [*"Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa"*](https://link.springer.com/chapter/10.1007/978-3-031-47640-2_24) (MICAI 2023 Oral session). **Authors:** [Edwin Salcedo](https://www.linkedin.com/in/edwinsalcedo) and [Patricia Peñaloza](https://www.linkedin.com/in/patricia-jael-pe%C3%B1aloza-sola-6b9b65131)
 
-[[Project page]](https://edwinsalcedo.com/publication/cubital) [[Dataset]](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing) [[arXiv]](https://arxiv.org/pdf/2310.18234) 
+[[Project page]](https://edwinsalcedo.com/publication/cubital) [[Dataset]](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing) [[arXiv]](https://arxiv.org/pdf/2310.18234) 
+
+<p align="center">
+<img src="images/inference.gif" width="70%">
+</p>
 
 
 ## Contents
@@ -12,6 +16,10 @@ This repository contains supplementary material for the conference paper [*"Edge
 * [Hardware prototype](#hardwareprototype) </br>
 
 [2. Dataset](#dataset) </br>
+* [Data collection](#datacollection) </br>
+* [Preliminary results](#preliminaryresults) </br>
+* [Validation data](#validationdata) </br>
+
 [3. Getting started](#gettingstarted) </br>
 [4. Citation](#citation) </br>
 <br>
@@ -25,7 +33,8 @@ Assessing vein condition and visibility is crucial before obtaining intravenous 
 
 <a id="cvsystem"></a> 
 ### Computer vision system
-We implemented various vein semantic segmentation models in <a href="https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Deep_Learning_based_Segmentation.ipynb">`Deep_Learning_based_Segmentation.ipynb`</a> and selected the best-performing one—a U-Net model. We then enhanced it in <a href="https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Inference_Multi_task_U_Net.ipynb">`Inference_Multi_task_U_Net.ipynb`</a> by adding an additional head to predict the coordinates of the antecubital fossa and its angle. The final computer vision system deployed in the vein finder is shown below:
+We implemented various vein semantic segmentation models in <a href="https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Deep_Learning_based_Vein_Segmentation.ipynb
+">`Deep_Learning_based_Segmentation.ipynb`</a> and selected the best-performing one—a U-Net model. We then enhanced it in <a href="https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Inference_Multi_task_U_Net.ipynb">`Inference_Multi_task_U_Net.ipynb`</a> by adding an additional head to predict the coordinates of the antecubital fossa and its angle. The final computer vision system deployed in the vein finder is shown below:
 
 <p align="center">
 <img src="images/graphical-abstract.png" width="700">
@@ -53,16 +62,24 @@ The device was designed using the 3D CAD software SolidWorks. It can be viewed b
 | Case | - | [`Base`](cad/base.SLDPRT) [`Cover`](cad/cover.SLDPRT) [`Charger`](cad/charger.SLDPRT) |
 | 9v battery holder | - | [`Case`](cad/battery_cover.SLDPRT) [`Holder`](cad/battery_holder.SLDPRT) [`Battery`](cad/battery.SLDPRT) | 
  
-|  Frontal view |  Side view |  Back view |   Interior view |  
+|  Frontal view |  Back view | Side view | Inner view |  
 |---|---|---|---|
-|<img src="images/device/2_compressed.png" width="250px"/> | <img src="images/device/4_compressed.png"  width="250px"/> | <img src="images/device/3_compressed.png" width="250px"/> | <img src="images/device/1_compressed.png" width="250px"/> |  
+|<img src="images/device/2_compressed.png" width="250px"/> | <img src="images/device/3_compressed.png"  width="250px"/> | <img src="images/device/4_compressed.png" width="250px"/> | <img src="images/device/1_compressed.png" width="250px"/> |  
 
 <a id="dataset"></a>
 ## 2. Dataset
 
-To collect the dataset, 1,008 subjects with low-visible veins placed one arm at a time on a table, resulting in 2,016 images. We then captured an NIR image using the preliminary version of the vein finder. The final version of the dataset is available here: [Dataset](https://drive.google.com/file/d/191uA9ErYRSXculIa3AXHqfBhXjd7O3St/view?usp=sharing). Additionally, we created an alternative [Dataset](https://drive.google.com/file/d/1-6hCFfxxFFCx1fuBaQODVqDVOiWPl42U/view?usp=sharing) with 8,000 augmented and normalized samples (512x512 pixels) for training with the proposed architecture. 
+<a id="datacollection"></a> 
+### Data collection
 
-Below, you can see the original NIR samples, their preprocessed versions (after applying grayscale conversion and CLAHE), and their annotations: a grayscale mask overlay (with a different colormap for visualisation), a dot representing the x and y coordinates of the antecubital region, and a floating number representing the arm’s angle orientation. We also include a detailed explanation of the dataset folder structure.
+To collect the dataset, we captured 2016 NIR images of 1008 young individuals with low visibility veins. Each individual placed one arm at a time on a table, allowing us to use a preliminary version of the device to capture an NIR image. The dataset, available [here](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing), comes in four versions: 
+
+- **A:** `final_dataset.zip` &rarr; Base version with complete annotations. Three samples are shown below. 
+- **B:** `final_augmented_dataset.zip` &rarr; Resulting dataset after applying data augmentation to version A.
+- **C:** `square_final_dataset512x512.zip` &rarr; This is a resized version of dataset A, with images reshaped to 512x512 pixels, to match the input requirements of the semantic segmentation models. 
+- **D:** `square_augmented_final_dataset512x512.zip` &rarr; Similarly, resized version of B (512x512).
+
+Below, you can see the original NIR samples, their preprocessed versions (after applying grayscale conversion and CLAHE), and their annotations: a grayscale mask overlay (with a different colormap for visualisation), a dot representing the x and y coordinates of the antecubital fossa, and a floating number representing the arm’s angle. Furthermore, we provide a detailed explanation of the file `final_dataset.zip`, which contains the base version of the dataset.
 
 |  NIR Images |  Preprocessed Images |  Annotations |  
 |---|---|---|
@@ -78,21 +95,24 @@ final_dataset/
 ------------- preprocessed_images/ # The same NIR images after applying grayscale conversion and CLAHE.
 ```
 
-<!-- # Experimental Results
+<a id="preliminaryresults"></a> 
+### Preliminary results
 
-## Validation
+Initial results from implementations of U-Net, SegNet, PSPNet, Pix2Pix, and DeepLabv3+ on the dataset (version C) are presented.  The results indicate that U-Net achieved the highest accuracy.  As a result, we focused further research on this method for antecubital fossa detection.
+
 <p align="center">
-  <img src="images/inference2.png" width="65%">
+  <img src="images/inference.png" width="100%">
 </p>
 
-## Interface
+<a id="validationdata"></a> 
+### Validation data
 
--->
+To validate the device, we asked three certified nurses to indicate the location where they would perform venipuncture on 384 samples. We saved this information in image format and shared it in the [validation](https://drive.google.com/drive/folders/1itPFfEvblAsP4ZEBzYGGOGrxNw2REc06?usp=sharing) folder, inside the dataset location. We have also included the documents signed by the nurses, confirming their consent to share the information. The annotated images can be used to compare the model's inference to the nurses' chosen venipuncture locations. We used these image subsets to evaluate the proposed device's performance, finding an 83% agreement between the regions identified by the nurses and those identified by the [U-Net](https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Validation_with_Nurse's_annotations_PyTorch_version.ipynb) vein segmentation algorithm.
 
 <a id="gettingstarted"></a>
 ## 3. Getting started
 
-With the project, we provide you with one pretrained multi-task unet model, which is embedded inside a complete pipeline to generate inference given a NIR image. You can execute the latter by following the next steps: 
+In this repository, we provide a pretrained multi-task U-Net model, embedded within a complete pipeline for performing inference on NIR images.  You can run the pipeline by following these steps:
 
 ```bash
 # Clone the repository
@@ -109,7 +129,7 @@ pip install -r requirements.txt
 python inference.py
 ```
 
-The pretrained serialized models for this pipeline are placed in `edge/models`, while their detailed implementations are located in `notebooks`.
+The pretrained, serialized model files are stored in `edge/models`. The Jupyter notebooks (.ipynb files) in the `notebooks` directory contain the code used to train and evaluate these models, along with their architectural definitions.
 
 <a id="citation"></a>
 ## 4. Citation
