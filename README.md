@@ -138,10 +138,10 @@ Additionally, we include two scripts to execute the interface shown at the begin
 (new_env) python edgeai/final_interface_vein_segmentation.py 
 
 # or, the command for vein segmentation in the antecubital fossa.
-(new_env) edgeai/final_interface_multitask.py 
+(new_env) python dgeai/final_interface_multitask.py 
 ```
 
-The latter command implements the novel architecture proposed in this research. While you can execute any of these scripts using any camera, both require a NIR camera for optimal inference results. It is worth noting serialized model files are stored in `edgeai/models`.
+The latter command implements the novel architecture proposed in this research. While you can execute any of these scripts using any camera, both require a NIR camera for optimal inference results. 
 
 <a id="citation"></a>
 ## 4. Citation
