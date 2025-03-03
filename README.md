@@ -128,14 +128,20 @@ conda activate new_env
 pip install -r requirements.txt
 
 # Execute inference script
-python inference.py
+(new_env) python inference.py
 ```
 
 Additionally, we include two scripts to execute the interface shown at the beginning of this repository:
-- <a href='https://github.com/EdwinTSalcedo/CUBITAL/blob/master/edgeai/final_interface_vein_segmentation.py'>`edgeai/final_interface_vein_segmentation.py`</a> for forearm vein segmentation. 
-- <a href='https://github.com/EdwinTSalcedo/CUBITAL/blob/master/edgeai/final_interface_multitask.py'>`edgeai/final_interface_multitask.py`</a> for vein segmentation in the antecubital fossa. 
 
-The latter script implements the novel architecture proposed in this research. While you can execute any of these scripts using any camera, both require a NIR camera for optimal inference results. It is worth noting that both scripts require the activation of the `new_env` environment, and the serialized model files are stored in `edgeai/models`.
+```bash
+# Run the next command for forearm vein segmentation. 
+(new_env) python edgeai/final_interface_vein_segmentation.py 
+
+# or, the command for vein segmentation in the antecubital fossa.
+(new_env) edgeai/final_interface_multitask.py 
+```
+
+The latter command implements the novel architecture proposed in this research. While you can execute any of these scripts using any camera, both require a NIR camera for optimal inference results. It is worth noting serialized model files are stored in `edgeai/models`.
 
 <a id="citation"></a>
 ## 4. Citation

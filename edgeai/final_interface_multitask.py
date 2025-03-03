@@ -12,14 +12,15 @@ import numpy as np
 import tensorflow as tf
 
 INPUT_MODEL_DIMENSION = 512  #Options: 512, 256, 128, 64
+HOME = os.getcwd()
 
-unet = tf.saved_model.load(f"models/unet_multi")
+unet = tf.saved_model.load(os.path.join(HOME,"edgeai/models/unet_multi"))
 
 # Access the 'serving_default' signature
 infer = unet.signatures["serving_default"]
 
 # Define path variables
-HOME = os.getcwd()
+
 PICTURES_PATH = os.path.join(HOME, "pictures")
 
 # Check if the folder exists
@@ -38,6 +39,7 @@ class UI_MainWindow():
         main_window.resize(670, 370)
         self.central_widget = QtWidgets.QWidget(main_window)
         self.central_widget.setObjectName("central_widget")
+
         # Set video pane
         self.label = QtWidgets.QLabel(self.central_widget)
         self.label.setGeometry(QtCore.QRect(10, 10, 480, 320))
@@ -49,6 +51,7 @@ class UI_MainWindow():
         self.start_stream_button.setObjectName("start_stream_button")
         self.start_stream_button.clicked.connect(self.start_video)
         self.start_stream_button.setText("START")
+        
         # Set buttons for capturing pictures
         self.take_picture_button = QtWidgets.QPushButton(self.central_widget)
         self.take_picture_button.setGeometry(QtCore.QRect(582, 263, 80, 70))
@@ -106,7 +109,7 @@ class UI_MainWindow():
                 self.label.setVisible(True)
             self.Work = Work()
             self.Work.start()
-            self.Work.Imageupd.connect(self.set_video_stream)
+            self.Work.imageupd.connect(self.set_video_stream)
             self.camera_on = True
             self.start_stream_button.setText("STOP")
             self.take_picture_button.setEnabled(True)
@@ -163,49 +166,83 @@ class UI_MainWindow():
             self.label_second_picture.setVisible(False)
 
 class Work(QThread):
-    Imageupd = pyqtSignal(QImage)
+    '''
+        This class lets process each input frame in a different thread. Then, it applies a model 
+        to obtain the segments representing the vein in the antecubital fossa. 
+    '''
+    imageupd = pyqtSignal(QImage)
 
     def run(self):
         self.running_thread = True
         cap = cv2.VideoCapture(0)
+
+        # Dimensions of the image to be displayed in the interface, considering the 16:9 aspect ratio. 
+        IMAGE_WIDTH_TO_SHOW = 568
+        IMAGE_HEIGHT_TO_SHOW = 320
+        
+        # Piles to average the x and y coordinates of the antecubital fossa localised by the model.
+        x_buffer = []
+        y_buffer = []
+        buffer_size = 30
+
         while self.running_thread:
             ret, frame = cap.read()
+
             if ret:
                 image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 image = cv2.flip(image, 1)
-
-                new_image_to_segment = image[:,420:1500,:]
-                new_image_to_segment = cv2.resize(new_image_to_segment, (512, 512), interpolation = cv2.INTER_AREA)
+                image = cv2.resize(image, (IMAGE_WIDTH_TO_SHOW, IMAGE_HEIGHT_TO_SHOW), interpolation = cv2.INTER_AREA)
+                
+                # Obtain the predicted mask
+                left_limit = int(IMAGE_HEIGHT_TO_SHOW//2)
+                right_limit = left_limit + IMAGE_HEIGHT_TO_SHOW
+                new_image_to_segment = image[:,left_limit:right_limit,:]
+                new_image_to_segment = cv2.resize(new_image_to_segment, (INPUT_MODEL_DIMENSION, INPUT_MODEL_DIMENSION), interpolation = cv2.INTER_AREA)
                 mask, values = self.segment_and_predict(new_image_to_segment)
-                resized_mask = cv2.resize(mask, (320, 320), interpolation = cv2.INTER_AREA)
+                resized_mask = cv2.resize(mask, (IMAGE_HEIGHT_TO_SHOW, IMAGE_HEIGHT_TO_SHOW), interpolation = cv2.INTER_AREA)
+                masked_mask = np.zeros(image.shape, dtype=np.uint8)
+                masked_mask[:,left_limit:right_limit,:] = resized_mask
 
-                scaled_image_to_display = cv2.resize(image, (569, 320), interpolation = cv2.INTER_AREA)
-                scaled_image_to_display = scaled_image_to_display[:,45:525,:]
-                masked_image = np.zeros(scaled_image_to_display.shape, dtype=np.uint8)
-
-                masked_image[:,80:400,:] = resized_mask
-
-                # Add regression values
-                x = int(values[0][0] * INPUT_MODEL_DIMENSION)
-                y = int(values[0][1] * INPUT_MODEL_DIMENSION)
+                # Include a bounding box by using the x and y coordinates of the antecubital fossa obtained by the model.
+                x = int(values[0][0] * IMAGE_HEIGHT_TO_SHOW) + (left_limit)
+                y = int(values[0][1] * IMAGE_HEIGHT_TO_SHOW)
                 angle = values[0][2] * 180
 
-                # Window size 
-                window_size = 100
-                window_size = window_size // 2
-                
-                masked_image[:y-window_size,:masked_image.shape[1],:] = [0, 0, 0]
-                masked_image[y-window_size:y+window_size,:x-window_size,:] = [0, 0, 0]
-                masked_image[y-window_size:y+window_size,x+window_size:,:] = [0, 0, 0]
-                masked_image[y+window_size:,:masked_image.shape[1],:] = [0, 0, 0]
-                
-                combined = cv2.addWeighted(scaled_image_to_display, 1, masked_image, 0.8, 0)
+                if len(x_buffer) > buffer_size:
+                    x_buffer.pop(0)
+                x_buffer.append(x)
 
-                # cv2.circle(combined, (x, y), radius=5, color=(0,255,0), thickness=-1)
-                # cv2.putText(combined, f"{angle:.2f}", (x+10, y+5), 1, 1, (0,0,255))
+                if len(y_buffer) > buffer_size:
+                    y_buffer.pop(0)
+                y_buffer.append(y)
+
+                # Average the x and y coordinates to avoid inconstant coordinates
+                new_x = int(sum(x_buffer) / len(x_buffer) if x_buffer else 0)
+                new_y = int(sum(y_buffer) / len(y_buffer) if y_buffer else 0)
+
+                # Remove segments out of the antecubital fossa's window 
+                window_size = 80
+                window_size = window_size // 2
+
+                bbox_x1 = new_x-window_size
+                bbox_x2 = new_x+window_size
+                bbox_y1 = new_y-window_size
+                bbox_y2 = new_y+window_size
+                
+                masked_mask[:bbox_y1,:masked_mask.shape[1],:] = [0, 0, 0]
+                masked_mask[bbox_y1:bbox_y2,:bbox_x1,:] = [0, 0, 0]
+                masked_mask[bbox_y1:bbox_y2,bbox_x2:,:] = [0, 0, 0]
+                masked_mask[bbox_y2:,:masked_mask.shape[1],:] = [0, 0, 0]
+                
+                combined = cv2.addWeighted(image, 1, masked_mask, 0.8, 0)
+
+                # Draw the bounding box representing the antecubital fossa
+                cv2.rectangle(combined,(bbox_x1,bbox_y1),(bbox_x2,bbox_y2),(31,255,255),1)
 
                 qimage = QImage(combined.data, combined.shape[1], combined.shape[0], QImage.Format.Format_RGB888)
-                self.Imageupd.emit(qimage)
+                self.imageupd.emit(qimage)
+
+        cap.relase()
 
     def stop(self):
         self.running_thread = False
@@ -213,13 +250,17 @@ class Work(QThread):
 
     def segment_and_predict(self, image):
        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)  
+
+       # Implement CLAHE and normalise the image
        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
        image = clahe.apply(image)
        image = image.astype(dtype=np.float32) / 127.5 - 1
 
+       # Convert image to TensorFlow tensor
        image = np.expand_dims(np.expand_dims((image), axis=0), axis=3)
        image_tensor = tf.convert_to_tensor(image, dtype=tf.float32)
 
+       # Obtain inference results with the model
        results = infer(image_tensor)
        values = results['output_1']
        mask = results['output_0']

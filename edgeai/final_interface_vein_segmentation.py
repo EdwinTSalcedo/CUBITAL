@@ -12,9 +12,10 @@ import numpy as np
 import tensorflow as tf
 
 INPUT_MODEL_DIMENSION = 512  #Options: 512, 256, 128, 64
+HOME = os.getcwd()
 
 # Load the TFLite model and allocate tensors. Note this load the corresponding model given the input dimensions. 
-interpreter = tf.lite.Interpreter(model_path=f"models/unet{INPUT_MODEL_DIMENSION}x{INPUT_MODEL_DIMENSION}.tflite")
+interpreter = tf.lite.Interpreter(model_path=os.path.join(HOME,f"edgeai/models/unet{INPUT_MODEL_DIMENSION}x{INPUT_MODEL_DIMENSION}.tflite"))
 
 # Assign memory addresses to save new data in tensor format
 interpreter.allocate_tensors()
