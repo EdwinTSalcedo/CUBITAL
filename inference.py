@@ -98,7 +98,6 @@ def infer(model, image_tensor):
 
   return predictions
 
-
 def plot_visualization(real_data, predicted_data):
   colors = {"background":[59, 82, 139],
             "arm":[3, 31, 254],

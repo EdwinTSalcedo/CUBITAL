@@ -40,6 +40,8 @@ We implemented various vein semantic segmentation models in <a href="https://git
 <img src="images/graphical-abstract.png" width="700">
 </p>
 
+We also include plots showing the model's layers in both <a href='https://github.com/EdwinTSalcedo/CUBITAL/blob/master/images/model_plot.png'>horizontal</a> and <a href='https://github.com/EdwinTSalcedo/CUBITAL/blob/master/images/model_plot.jpeg'>vertical</a> alignment.
+
 <a id="hardwareprototype"></a> 
 ### Hardware prototype
 
@@ -112,7 +114,7 @@ To validate the device, we asked three certified nurses to indicate the location
 <a id="gettingstarted"></a>
 ## 3. Getting started
 
-In this repository, we provide a pretrained multi-task U-Net model, embedded within a complete pipeline for performing inference on NIR images.  You can run the pipeline by following these steps:
+In this repository, we provide a pretrained multi-task U-Net model, embedded within a complete pipeline for performing inference on NIR images included in the folder `subset/preprocessed_images`.  You can run the pipeline by following these steps:
 
 ```bash
 # Clone the repository
@@ -129,7 +131,11 @@ pip install -r requirements.txt
 python inference.py
 ```
 
-The pretrained, serialized model files are stored in `edge/models`. The Jupyter notebooks (.ipynb files) in the `notebooks` directory contain the code used to train and evaluate these models, along with their architectural definitions.
+Additionally, we include two scripts to execute the interface shown at the beginning of this repository:
+- <a href='https://github.com/EdwinTSalcedo/CUBITAL/blob/master/edgeai/final_interface_vein_segmentation.py'>`edgeai/final_interface_vein_segmentation.py`</a> for forearm vein segmentation. 
+- <a href='https://github.com/EdwinTSalcedo/CUBITAL/blob/master/edgeai/final_interface_multitask.py'>`edgeai/final_interface_multitask.py`</a> for vein segmentation in the antecubital fossa. 
+
+The latter script implements the novel architecture proposed in this research. While you can execute any of these scripts using any camera, both require a NIR camera for optimal inference results. It is worth noting that both scripts require the activation of the `new_env` environment, and the serialized model files are stored in `edgeai/models`.
 
 <a id="citation"></a>
 ## 4. Citation
