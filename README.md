@@ -141,7 +141,7 @@ Additionally, we include two scripts to execute the interface shown at the begin
 (new_env) python edgeai/final_interface_multitask.py 
 ```
 
-The `edgeai/final_interface_multitask.py` script implements the novel architecture proposed in this research. While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and lighting for optimal inference results.
+The `edgeai/final_interface_multitask.py` script implements the novel architecture proposed in this research. While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and NIR lighting for optimal inference results.
 
 <a id="citation"></a>
 ## 4. Citation
