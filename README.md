@@ -137,11 +137,11 @@ Additionally, we include two scripts to execute the interface shown at the begin
 # Run the next command for forearm vein segmentation. 
 (new_env) python edgeai/final_interface_vein_segmentation.py 
 
-# or, the command for vein segmentation in the antecubital fossa.
-(new_env) python dgeai/final_interface_multitask.py 
+# or, this command for vein segmentation in the antecubital fossa.
+(new_env) python edgeai/final_interface_multitask.py 
 ```
 
-The latter command implements the novel architecture proposed in this research. While you can execute any of these scripts using any camera, both require a NIR camera for optimal inference results. 
+The `edgeai/final_interface_multitask.py` script implements the novel architecture proposed in this research. While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and lighting for optimal inference results.
 
 <a id="citation"></a>
 ## 4. Citation
