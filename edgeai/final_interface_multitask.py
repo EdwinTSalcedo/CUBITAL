@@ -249,6 +249,7 @@ class Work(QThread):
                 masked_mask[bbox_y1:bbox_y2,bbox_x2:] = 0
                 masked_mask[bbox_y2:,:masked_mask.shape[1]] = 0
 
+                # Change the color of all vein segments to green
                 output = cv2.cvtColor(masked_mask, cv2.COLOR_GRAY2RGB)
                 output[masked_mask==255] = [0,255,0]                
                 combined = cv2.addWeighted(output, 1, image, 0.8, 0)
