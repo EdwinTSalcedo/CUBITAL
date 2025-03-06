@@ -77,12 +77,12 @@ The device was designed using the 3D CAD software SolidWorks. It can be viewed b
 <a id="datacollection"></a> 
 ### Data collection
 
-To collect the dataset, we captured 2016 NIR images of 1,008 young individuals with low visibility veins. Each individual placed one arm at a time on a table, allowing us to use a preliminary version of the device to capture an NIR image. The dataset, available [here](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing), comes in four versions: 
+To collect the dataset, we captured 2,016 NIR images of 1,008 young individuals with low visibility veins. Each individual placed one arm at a time on a table, allowing us to use a preliminary version of the device to capture an NIR image. The dataset, available [here](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing), comes in four versions: 
 
 - **A:** `final_dataset.zip` &rarr; Base version with complete annotations. Three samples are shown below. 
 - **B:** `final_augmented_dataset.zip` &rarr; Resulting dataset after applying data augmentation to version A.
 - **C:** `square_final_dataset512x512.zip` &rarr; This is a resized version of dataset A, with images reshaped to 512x512 pixels, to match the input requirements of the semantic segmentation models. 
-- **D:** `square_augmented_final_dataset512x512.zip` &rarr; Similarly, resized version of B (512x512).
+- **D:** `square_augmented_final_dataset512x512.zip` &rarr; Similarly, a resized version of dataset B (512x512).
 
 Below, you can see the original NIR samples, their preprocessed versions (after applying grayscale conversion and CLAHE), and their annotations: a grayscale mask overlay (with a different colormap for visualization), a dot representing the x and y coordinates of the antecubital fossa, and a floating number representing the arm angle. Furthermore, we provide a detailed explanation of the file `final_dataset.zip`, which contains the base version of the dataset.
 
@@ -120,7 +120,7 @@ To validate the device, we asked three certified nurses to indicate the location
 <a id="initialinference"></a> 
 ### Initial inference samples
 
-First, we provide a pretrained multi-task U-Net model, embedded within a complete pipeline for performing inference on NIR images included in the folder `subset/preprocessed_images`.  You can run the pipeline by following these steps:
+First, we provide a pretrained multi-task U-Net model, embedded within a complete pipeline, for performing inference on NIR images included in the folder `subset/preprocessed_images`.  You can run the pipeline by following these steps:
 
 ```bash
 # Clone the repository
