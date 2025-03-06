@@ -23,6 +23,7 @@ This repository contains supplementary material for the conference paper [*"Edge
 [3. Getting started](#gettingstarted) </br>
 * [Initial inference samples](#initialinference) </br>
 * [Graphical user interface (GUI)](#gui) </br>
+* [On-device deployment](#deployment) </br>
 
 [4. Citation](#citation) </br>
 <br>
@@ -157,7 +158,107 @@ And, execute the following command for vein segmentation in the antecubital foss
 <p align="center">
 <img src="images/inference-multitask-unet.gif" width="70%">
 </p>
-While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and NIR lighting for optimal inference results.
+While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and NIR lighting for optimal inference results. 
+
+<a id="deployment"></a> 
+### On-device deployment
+
+Once the repository is cloned onto a Raspberry Pi 4B, two libraries are required to launch any of the interfaces shown above: OpenCV and TensorFlow Lite. The following steps aim to complete this installation and have been verified on a Raspberry Pi 4B with the latest Raspbian Buster (64-bit) and a 32 GB SD card.
+
+**Step 1:** Install dependencies
+1. Updating Existing Packages:
+Execute the following command to update and upgrade your system’s packages:
+
+```bash
+sudo apt-get update && sudo apt-get upgrade
+```
+2. Installing Image I/O Packages:
+For support with various image file formats, install the necessary packages using:
+
+```bash
+sudo apt-get install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
+```
+
+3. Setting Up Video I/O Packages:
+To handle different video file formats and work with video streams, use the commands below:
+
+```bash
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev 
+sudo apt-get install libxvidcore-dev libx264-dev
+```
+
+4. Installing the GTK Development Library:
+To compile the highgui module (used for displaying images and creating basic GUIs), install the GTK development library:
+
+```bash
+sudo apt-get install libgtk2.0-dev
+```
+
+5. Additional Dependencies for OpenCV Optimization:
+For enhanced OpenCV operation optimization, install these extra dependencies:
+
+```bash
+sudo apt-get install libatlas-base-dev gfortran
+```
+
+**Step 2:** Installing pip (Package Management Tool)
+
+If you haven’t installed pip for Python 3 yet, execute the command below:
+
+```bash
+sudo apt-get install python3-pip
+```
+
+**Step 3:** Installing the Numpy Library:
+
+```bash
+pip install numpy
+```
+
+**Step 4:** Accessing OpenCV on Raspbian Repository
+To locate OpenCV in the default Raspbian Buster repository, use the command:
+
+```bash
+apt list python*opencv*
+```
+
+**Step 5:** Installing OpenCV
+Execute the following command to install OpenCV on Raspberry Pi.
+
+```bash
+sudo apt install python3-opencv
+```
+
+**Step 6:** Verifying OpenCV Installation
+To confirm the installation of OpenCV, use:
+
+```bash
+apt show python3-opencv
+```
+
+Optionally, you can combine the previous commands into one. The next one worked for us: 
+
+```bash
+sudo apt-get install -y libhdf5-dev libc-ares-dev libeigen3-dev gcc gfortran libgfortran5 libatlas3-base libatlas-base-dev libopenblas-dev libopenblas-base libblas-dev liblapack-dev cython3 libatlas-base-dev openmpi-bin libopenmpi-dev python3-dev build-essential cmake pkg-config libjpeg-dev libtiff5-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk2.0-dev libgtk-3-dev libhdf5-serial-dev libhdf5-103 libqt5gui5 libqt5webkit5 libqt5test5 python3-pyqt5
+```
+
+**Step 7:** Run the following command to install TensorFlow Lite's interpreter:
+
+```bash
+pip3 install tflite-runtime
+```
+
+To check if TensorFlow Lite is installed correctly, run:
+
+```python
+python3 -c "import tflite_runtime.interpreter as tflite; print('TensorFlow Lite is installed successfully!')"
+```
+
+If no errors appear, the installation was successful. You can run now any of the GUIs shown above!
+
+<p align="center">
+<img src="images/inference2.png" width="70%">
+</p>
 
 <a id="citation"></a>
 ## 4. Citation
