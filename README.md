@@ -5,7 +5,7 @@ This repository contains supplementary material for the conference paper [*"Edge
 [[Project page]](https://edwinsalcedo.com/publication/cubital) [[Dataset]](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing) [[arXiv]](https://arxiv.org/pdf/2310.18234) 
 
 <p align="center">
-<img src="images/inference.gif" width="70%">
+<img src="images/main.gif" width="80%">
 </p>
 
 
@@ -21,6 +21,9 @@ This repository contains supplementary material for the conference paper [*"Edge
 * [Validation data](#validationdata) </br>
 
 [3. Getting started](#gettingstarted) </br>
+* [Initial inference samples](#initialinference) </br>
+* [Graphical user interface (GUI)](#gui) </br>
+
 [4. Citation](#citation) </br>
 <br>
 
@@ -29,7 +32,7 @@ This repository contains supplementary material for the conference paper [*"Edge
 
 <a id="motivation"></a> 
 ### Motivation
-Assessing vein condition and visibility is crucial before obtaining intravenous access in the antecubital fossa, a common site for blood draws and intravenous therapy. However, medical practitioners often struggle with patients who have less visible veins due to factors such as fluid retention, age, obesity, dark skin tone, or diabetes. Current research explores the use of near-infrared (NIR) imaging and deep learning (DL) for forearm vein segmentation, achieving high precision. However, a research gap remains in recognising veins specifically in the antecubital fossa. Additionally, most studies rely on stationary computers, limiting portability for medical personnel during venipuncture procedures. To address these challenges, we propose a portable vein finder for the antecubital fossa based on the Raspberry Pi 4B.
+Assessing vein condition and visibility is crucial before obtaining intravenous access in the antecubital fossa, a common site for blood draws and intravenous therapy. However, medical practitioners often struggle with patients who have less visible veins due to factors such as fluid retention, age, obesity, darker skin tones, or diabetes. Current research explores the use of near-infrared (NIR) imaging and deep learning (DL) for forearm vein segmentation, achieving high precision. However, a research gap remains in the recognition of veins, specifically in the antecubital fossa. Additionally, most studies rely on stationary computers, limiting portability for medical personnel during venipuncture procedures. To address these challenges, we propose a portable vein finder for the antecubital fossa based on the Raspberry Pi 4B.
 
 <a id="cvsystem"></a> 
 ### Computer vision system
@@ -74,7 +77,7 @@ The device was designed using the 3D CAD software SolidWorks. It can be viewed b
 <a id="datacollection"></a> 
 ### Data collection
 
-To collect the dataset, we captured 2016 NIR images of 1008 young individuals with low visibility veins. Each individual placed one arm at a time on a table, allowing us to use a preliminary version of the device to capture an NIR image. The dataset, available [here](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing), comes in four versions: 
+To collect the dataset, we captured 2016 NIR images of 1,008 young individuals with low visibility veins. Each individual placed one arm at a time on a table, allowing us to use a preliminary version of the device to capture an NIR image. The dataset, available [here](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing), comes in four versions: 
 
 - **A:** `final_dataset.zip` &rarr; Base version with complete annotations. Three samples are shown below. 
 - **B:** `final_augmented_dataset.zip` &rarr; Resulting dataset after applying data augmentation to version A.
@@ -91,8 +94,8 @@ Below, you can see the original NIR samples, their preprocessed versions (after 
 
 ``` shell
 final_dataset/
-------------- dataset.csv # Demographic data for each sample includes age, complexion, gender, observations, NIR image location, preprocessed image location, mask location, antecubital fossa coordinates, and arm angle. Each subject contributed two samples, one for each arm.
-------------- masks/  # Grayscale images with pixel values 0,1, and 2 representing background, arm, and vein, respectively.
+------------- dataset.csv # Demographic data for each sample include age, complexion, gender, observations, NIR image location, preprocessed image location, mask location, antecubital fossa coordinates, and arm angle. Each subject contributed two samples, one for each arm.
+------------- masks/  # Grayscale images with pixel values 0, 1, and 2, representing the background, arm, and vein, respectively.
 ------------- nir_images/ # NIR images
 ------------- preprocessed_images/ # The same NIR images after applying grayscale conversion and CLAHE.
 ```
@@ -100,7 +103,7 @@ final_dataset/
 <a id="preliminaryresults"></a> 
 ### Preliminary results
 
-Initial results from implementations of U-Net, SegNet, PSPNet, Pix2Pix, and DeepLabv3+ on the dataset (version C) are presented.  The results indicate that U-Net achieved the highest accuracy.  As a result, we focused further research on this method for antecubital fossa detection.
+Initial results from the implementation of U-Net, SegNet, PSPNet, Pix2Pix, and DeepLabv3+ on dataset version C are presented. The results indicate that U-Net achieved the highest accuracy. As a result, we focused our further research on this method for antecubital fossa detection.
 
 <p align="center">
   <img src="images/inference.png" width="100%">
@@ -109,12 +112,15 @@ Initial results from implementations of U-Net, SegNet, PSPNet, Pix2Pix, and Deep
 <a id="validationdata"></a> 
 ### Validation data
 
-To validate the device, we asked three certified nurses to indicate the location where they would perform venipuncture on 384 samples. We saved this information in image format and shared it in the [validation](https://drive.google.com/drive/folders/1itPFfEvblAsP4ZEBzYGGOGrxNw2REc06?usp=sharing) folder, inside the dataset location. We have also included the documents signed by the nurses, confirming their consent to share the information. The annotated images can be used to compare the model's inference to the nurses' chosen venipuncture locations. We used these image subsets to evaluate the proposed device's performance, finding an 83% agreement between the regions identified by the nurses and those identified by the [U-Net](https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Validation_with_Nurse's_annotations_PyTorch_version.ipynb) vein segmentation algorithm.
+To validate the device, we asked three certified nurses to indicate the location where they would perform venipuncture on 384 samples. We saved this information in image format and shared it in the [validation](https://drive.google.com/drive/folders/1itPFfEvblAsP4ZEBzYGGOGrxNw2REc06?usp=sharing) folder, inside the dataset location. We have also included the documents signed by the nurses, confirming their consent to share this information. The annotated images can be used to compare the model's inference to the nurses' chosen venipuncture locations. We used these image subsets to evaluate the proposed base U-Net model's performance, finding an 83% agreement between the regions identified by the nurses and those identified by the [U-Net](https://github.com/EdwinTSalcedo/CUBITAL/blob/master/notebooks/Validation_with_Nurse's_annotations_PyTorch_version.ipynb) vein segmentation algorithm.
 
 <a id="gettingstarted"></a>
 ## 3. Getting started
 
-In this repository, we provide a pretrained multi-task U-Net model, embedded within a complete pipeline for performing inference on NIR images included in the folder `subset/preprocessed_images`.  You can run the pipeline by following these steps:
+<a id="initialinference"></a> 
+### Initial inference samples
+
+First, we provide a pretrained multi-task U-Net model, embedded within a complete pipeline for performing inference on NIR images included in the folder `subset/preprocessed_images`.  You can run the pipeline by following these steps:
 
 ```bash
 # Clone the repository
@@ -131,17 +137,27 @@ pip install -r requirements.txt
 (new_env) python inference.py
 ```
 
-Additionally, we include two scripts to execute the interface shown at the beginning of this repository:
+<a id="gui"></a> 
+### Graphical User Interface (GUI)
+
+Furthermore, we provide two GUIs for on-device deployment of the base and modified U-Nets. Run the following command for forearm vein segmentation:
 
 ```bash
-# Run the next command for forearm vein segmentation. 
 (new_env) python edgeai/final_interface_vein_segmentation.py 
+```
+<p align="center">
+<img src="images/inference.gif" width="70%">
+</p>
 
-# or, this command for vein segmentation in the antecubital fossa.
+And, execute the following command for vein segmentation in the antecubital fossa. This implements the novel architecture proposed in this research. 
+
+```bash
 (new_env) python edgeai/final_interface_multitask.py 
 ```
-
-The `edgeai/final_interface_multitask.py` script implements the novel architecture proposed in this research. While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and NIR lighting for optimal inference results.
+<p align="center">
+<img src="images/inference-multitask-unet.gif" width="70%">
+</p>
+While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and NIR lighting for optimal inference results.
 
 <a id="citation"></a>
 ## 4. Citation

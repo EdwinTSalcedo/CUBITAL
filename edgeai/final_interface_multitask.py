@@ -185,6 +185,9 @@ class Work(QThread):
         y_buffer = []
         buffer_size = 30
 
+        masks_buffer = []
+        masks_buffer_size = 10
+
         while self.running_thread:
             ret, frame = cap.read()
 
@@ -199,16 +202,28 @@ class Work(QThread):
                 new_image_to_segment = image[:,left_limit:right_limit,:]
                 new_image_to_segment = cv2.resize(new_image_to_segment, (INPUT_MODEL_DIMENSION, INPUT_MODEL_DIMENSION), interpolation = cv2.INTER_AREA)
                 mask, values = self.segment_and_predict(new_image_to_segment)
-                resized_mask = cv2.resize(mask, (IMAGE_HEIGHT_TO_SHOW, IMAGE_HEIGHT_TO_SHOW), interpolation = cv2.INTER_AREA)
-                masked_mask = np.zeros(image.shape, dtype=np.uint8)
-                masked_mask[:,left_limit:right_limit,:] = resized_mask
+
+                mask[mask == 1] = 0
+                mask[mask == 2] = 255
+
+                # Average the present and previous masks in a weighted manner
+                if len(masks_buffer) >= masks_buffer_size: 
+                    masks_buffer.pop(0)
+                masks_buffer.append(mask)
+                new_mask = (np.where(self.average(masks_buffer)>0.5, 255, 0)).astype(np.uint8)
+
+                resized_mask = cv2.resize(new_mask, (IMAGE_HEIGHT_TO_SHOW, IMAGE_HEIGHT_TO_SHOW), interpolation = cv2.INTER_AREA)
+                _, binary_mask = cv2.threshold(resized_mask, 127, 255, cv2.THRESH_BINARY)
+
+                masked_mask = np.zeros((image.shape[0],image.shape[1]), dtype=np.uint8)
+                masked_mask[:,left_limit:right_limit] = binary_mask
 
                 # Include a bounding box by using the x and y coordinates of the antecubital fossa obtained by the model.
                 x = int(values[0][0] * IMAGE_HEIGHT_TO_SHOW) + (left_limit)
                 y = int(values[0][1] * IMAGE_HEIGHT_TO_SHOW)
                 angle = values[0][2] * 180
 
-                if len(x_buffer) > buffer_size:
+                if len(x_buffer) >= buffer_size:
                     x_buffer.pop(0)
                 x_buffer.append(x)
 
@@ -221,7 +236,7 @@ class Work(QThread):
                 new_y = int(sum(y_buffer) / len(y_buffer) if y_buffer else 0)
 
                 # Remove segments out of the antecubital fossa's window 
-                window_size = 80
+                window_size = 100
                 window_size = window_size // 2
 
                 bbox_x1 = new_x-window_size
@@ -229,12 +244,14 @@ class Work(QThread):
                 bbox_y1 = new_y-window_size
                 bbox_y2 = new_y+window_size
                 
-                masked_mask[:bbox_y1,:masked_mask.shape[1],:] = [0, 0, 0]
-                masked_mask[bbox_y1:bbox_y2,:bbox_x1,:] = [0, 0, 0]
-                masked_mask[bbox_y1:bbox_y2,bbox_x2:,:] = [0, 0, 0]
-                masked_mask[bbox_y2:,:masked_mask.shape[1],:] = [0, 0, 0]
-                
-                combined = cv2.addWeighted(image, 1, masked_mask, 0.8, 0)
+                masked_mask[:bbox_y1,:masked_mask.shape[1]] = 0
+                masked_mask[bbox_y1:bbox_y2,:bbox_x1] = 0
+                masked_mask[bbox_y1:bbox_y2,bbox_x2:] = 0
+                masked_mask[bbox_y2:,:masked_mask.shape[1]] = 0
+
+                output = cv2.cvtColor(masked_mask, cv2.COLOR_GRAY2RGB)
+                output[masked_mask==255] = [0,255,0]                
+                combined = cv2.addWeighted(output, 1, image, 0.8, 0)
 
                 # Draw the bounding box representing the antecubital fossa
                 cv2.rectangle(combined,(bbox_x1,bbox_y1),(bbox_x2,bbox_y2),(31,255,255),1)
@@ -242,11 +259,18 @@ class Work(QThread):
                 qimage = QImage(combined.data, combined.shape[1], combined.shape[0], QImage.Format.Format_RGB888)
                 self.imageupd.emit(qimage)
 
-        cap.relase()
+        cap.release()
 
     def stop(self):
         self.running_thread = False
         self.quit()
+
+    def average(self, arrays):
+        assert len(arrays) > 0, "Input list must not be empty"
+        assert all(arr.shape == arrays[0].shape for arr in arrays), "All arrays must have the same shape"
+
+        avg = np.mean(arrays, axis=0)
+        return avg
 
     def segment_and_predict(self, image):
        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)  
@@ -267,11 +291,7 @@ class Work(QThread):
        mask = np.squeeze(mask)
        prediction_mask = np.argmax(mask, axis=2).astype(np.uint8)
 
-       output = cv2.cvtColor(prediction_mask, cv2.COLOR_GRAY2RGB)
-       output[prediction_mask == 2] = [0, 255, 0]
-       output[prediction_mask == 1] = [0, 0, 0]
-
-       return output, values
+       return prediction_mask, values
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
