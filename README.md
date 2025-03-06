@@ -146,7 +146,7 @@ Furthermore, we provide two GUIs for on-device deployment of the base and modifi
 (new_env) python edgeai/final_interface_vein_segmentation.py 
 ```
 <p align="center">
-<img src="images/inference.gif" width="70%">
+<img src="images/inference-unet.gif" width="70%">
 </p>
 
 And, execute the following command for vein segmentation in the antecubital fossa. This implements the novel architecture proposed in this research. 
