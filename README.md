@@ -156,7 +156,7 @@ And, execute the following command for vein segmentation in the antecubital foss
 (new_env) python edgeai/final_interface_multitask.py 
 ```
 <p align="center">
-<img src="images/inference-multitask-unet.gif" width="70%">
+<img src="images/inference-multitask.gif" width="70%">
 </p>
 While you can execute any of these scripts with any camera connected to your device, both require an NIR camera and NIR lighting for optimal inference results. 
 
