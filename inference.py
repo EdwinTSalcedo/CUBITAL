@@ -61,7 +61,7 @@ val_images, val_masks, val_acf_x_centers, val_acf_y_centers, val_angles, val_ids
 test_images, test_masks, test_acf_x_centers, test_acf_y_centers, test_angles, test_ids = obtain_subset(dataset[NUM_VAL_SAMPLES + NUM_TRAIN_SAMPLES : ])
 
 SAVED_MODEL = "edgeai/models/unet_multi"
-unet = tf.keras.models.load_model(SAVED_MODEL)
+unet = tf.saved_model.load(SAVED_MODEL)
 
 # Show visualization
 
@@ -84,7 +84,12 @@ def normalize(image):
   return image
 
 def infer(model, image_tensor):
-  mask, values = model.predict(np.expand_dims((image_tensor), axis=0), verbose=0)
+  batch = tf.convert_to_tensor(np.expand_dims(image_tensor, axis=0), dtype=tf.float32)
+  outputs = model.signatures["serving_default"](keras_tensor=batch)
+  # Bundled signature: output_0 is [N, 512, 512, 3] segmentation;
+  # output_1 is [N, 3] regression (x, y, angle).
+  mask = outputs["output_0"].numpy()
+  values = outputs["output_1"].numpy()
   mask = np.squeeze(mask)
   mask_npy = np.argmax(mask, axis=2).astype(np.uint8)
   mask = tf.convert_to_tensor(mask_npy)
