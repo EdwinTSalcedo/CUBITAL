@@ -1,8 +1,20 @@
 <h1 align="center">Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa (CUBITAL)</h1> 
 
+<p align="left">
+  <a href="https://link.springer.com/chapter/10.1007/978-3-031-47640-2_24">
+    <img src="https://img.shields.io/badge/%F0%9F%93%96%20%20Published%20version-Springer-orange" alt="Published version" height="16"></a>
+  <a href="https://arxiv.org/pdf/2310.18234">
+    <img src="https://img.shields.io/badge/%F0%9F%93%8E%20%20arXiv-2310.18234-b31b1b" alt="arXiv" height="16"></a>
+  <a href="https://edwinsalcedo.com/publication/cubital">
+    <img src="https://img.shields.io/badge/%F0%9F%8C%8E%20%20Project%20page-CUBITAL-blue" alt="Project page" height="16"></a>
+  <a href="https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing">
+    <img src="https://img.shields.io/badge/%F0%9F%93%82%20%20Dataset-CUBITAL-blue" alt="Dataset" height="16"></a>
+  <a href="./LICENSE.md">
+    <img src="https://img.shields.io/badge/%F0%9F%93%9C%20%20License%20agreement-MIT-blue" alt="License agreement: MIT" height="16"></a>
+</p>
+
 This repository contains supplementary material for the conference paper [*"Edge AI-Based Vein Detector for Efficient Venipuncture in the Antecubital Fossa"*](https://link.springer.com/chapter/10.1007/978-3-031-47640-2_24) (MICAI 2023 Oral session). **Authors:** [Edwin Salcedo](https://www.linkedin.com/in/edwinsalcedo) and [Patricia Peñaloza](https://www.linkedin.com/in/patricia-jael-pe%C3%B1aloza-sola-6b9b65131)
 
-[[Project page]](https://edwinsalcedo.com/publication/cubital) [[Dataset]](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing) [[arXiv]](https://arxiv.org/pdf/2310.18234) 
 
 <p align="center">
 <img src="images/main.gif" width="80%">
@@ -75,13 +87,15 @@ The device was designed using the 3D CAD software SolidWorks. It can be viewed b
 <a id="dataset"></a>
 ## 2. Dataset
 
+The CUBITAL dataset materials, including original images, segmentation masks, and metadata (`dataset.csv`), are covered by the [MIT License](./LICENSE.md). This applies to the materials in this repository and those available through the official dataset download links below.
+
 <a id="datacollection"></a> 
 ### Data collection
 
 To collect the dataset, we captured 2,016 NIR images of 1,008 young individuals with low visibility veins. Each individual placed one arm at a time on a table, allowing us to use a preliminary version of the device to capture an NIR image. The dataset, available [here](https://drive.google.com/drive/folders/19DaK7T81qTxgBzirvBGdMyVUj8mOCcOx?usp=sharing), comes in four versions: 
 
-- **A:** `final_dataset.zip` &rarr; Base version with complete annotations. Three samples are shown below. 
-- **B:** `final_augmented_dataset.zip` &rarr; Resulting dataset after applying data augmentation to version A.
+- **A:** `final_dataset.zip` &rarr; Base dataset with original NIR images, preprocessed images and complete annotations. Three samples are shown below. 
+- **B:** `final_augmented_dataset.zip` &rarr; Augmented version of dataset A.
 - **C:** `square_final_dataset512x512.zip` &rarr; This is a resized version of dataset A, with images reshaped to 512x512 pixels, to match the input requirements of the semantic segmentation models. 
 - **D:** `square_augmented_final_dataset512x512.zip` &rarr; Similarly, a resized version of dataset B (512x512).
 
@@ -95,7 +109,7 @@ Below, you can see the original NIR samples, their preprocessed versions (after 
 
 ``` shell
 final_dataset/
-------------- dataset.csv # Demographic data for each sample include age, complexion, gender, observations, NIR image location, preprocessed image location, mask location, antecubital fossa coordinates, and arm angle. Each subject contributed two samples, one for each arm.
+------------- dataset.csv # Metadata for each sample include participant ID, age, complexion, gender, observations, NIR image path, preprocessed image path, mask path, antecubital fossa coordinates, and arm angle. Each participant contributed two samples, one for each arm. The participant ID can be used to ensure that both samples remain in the same training, validation, or test split.
 ------------- masks/  # Grayscale images with pixel values 0, 1, and 2, representing the background, arm, and vein, respectively.
 ------------- nir_images/ # NIR images
 ------------- preprocessed_images/ # The same NIR images after applying grayscale conversion and CLAHE.

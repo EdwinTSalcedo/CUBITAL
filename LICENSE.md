@@ -1,4 +1,12 @@
-MIT License
+## Scope
+
+The MIT License below applies to the CUBITAL source code and dataset materials,
+including original images, segmentation masks, and metadata (such as
+`dataset.csv`), distributed in this repository or through the official CUBITAL
+dataset download links in `README.md`. For purposes of this license, the term
+"Software" includes these dataset materials.
+
+## MIT License
 
 Copyright (c) 2023 UCB
 
